@@ -1,6 +1,404 @@
 {
   "tasks": [
-    { "id": "1", "title": "Comprar pan", "description": "Ir a la panadería", "status": "pending" },
-    { "id": "2", "title": "Revisar PR", "description": "Repo Angular", "status": "completed" }
+    {
+      "id": "1",
+      "title": "Comprar pan",
+      "description": "Ir a la panadería de la esquina",
+      "status": "pending",
+      "createdAt": "2025-06-15T08:30:00Z",
+      "estimatedDuration": 45
+    },
+    {
+      "id": "2",
+      "title": "Revisar PR",
+      "description": "Revisar pull request del repo Angular",
+      "status": "completed",
+      "createdAt": "2024-01-14T14:20:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "3",
+      "title": "Planificar sprint",
+      "description": "Reunión de planificación del próximo sprint",
+      "status": "pending",
+      "createdAt": "2024-01-16T09:00:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "4",
+      "title": "Hacer ejercicio",
+      "description": "Rutina de gym por la mañana",
+      "status": "completed",
+      "createdAt": "2024-01-16T07:15:00Z",
+      "estimatedDuration": 90
+    },
+    {
+      "id": "5",
+      "title": "Estudiar Angular",
+      "description": "Repasar conceptos avanzados de Angular",
+      "status": "pending",
+      "createdAt": "2024-01-13T16:45:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "6",
+      "title": "Llamar al médico",
+      "description": "Pedir cita para chequeo anual",
+      "status": "pending",
+      "createdAt": "2024-01-12T11:30:00Z",
+      "estimatedDuration": 15
+    },
+    {
+      "id": "7",
+      "title": "Pagar facturas",
+      "description": "Pagar servicios de luz, agua e internet",
+      "status": "completed",
+      "createdAt": "2024-01-10T10:00:00Z",
+      "estimatedDuration": 30
+    },
+    {
+      "id": "8",
+      "title": "Limpiar casa",
+      "description": "Limpieza general de fin de semana",
+      "status": "pending",
+      "createdAt": "2024-01-14T13:00:00Z",
+      "estimatedDuration": 150
+    },
+    {
+      "id": "9",
+      "title": "Preparar presentación",
+      "description": "Preparar slides para reunión de equipo",
+      "status": "completed",
+      "createdAt": "2024-01-11T15:20:00Z",
+      "estimatedDuration": 200
+    },
+    {
+      "id": "10",
+      "title": "Comprar regalo",
+      "description": "Comprar regalo de cumpleaños para María",
+      "status": "pending",
+      "createdAt": "2024-01-17T12:00:00Z",
+      "estimatedDuration": 60
+    },
+    {
+      "id": "11",
+      "title": "Revisar documentación",
+      "description": "Actualizar documentación del proyecto",
+      "status": "pending",
+      "createdAt": "2024-01-09T14:10:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "12",
+      "title": "Configurar servidor",
+      "description": "Configurar entorno de desarrollo",
+      "status": "completed",
+      "createdAt": "2024-01-08T16:30:00Z",
+      "estimatedDuration": 300
+    },
+    {
+      "id": "13",
+      "title": "Resolver bugs",
+      "description": "Corregir errores críticos en producción",
+      "status": "pending",
+      "createdAt": "2024-01-17T10:15:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "14",
+      "title": "Reunión con cliente",
+      "description": "Presentar avances del proyecto",
+      "status": "completed",
+      "createdAt": "2024-01-05T11:00:00Z",
+      "estimatedDuration": 90
+    },
+    {
+      "id": "15",
+      "title": "Hacer deploy",
+      "description": "Desplegar nueva versión en staging",
+      "status": "pending",
+      "createdAt": "2024-01-16T17:00:00Z",
+      "estimatedDuration": 45
+    },
+    {
+      "id": "16",
+      "title": "Escribir tests",
+      "description": "Implementar tests unitarios",
+      "status": "pending",
+      "createdAt": "2024-01-15T14:45:00Z",
+      "estimatedDuration": 360
+    },
+    {
+      "id": "17",
+      "title": "Optimizar código",
+      "description": "Refactorizar componentes legacy",
+      "status": "completed",
+      "createdAt": "2024-01-04T13:20:00Z",
+      "estimatedDuration": 480
+    },
+    {
+      "id": "18",
+      "title": "Aprender RxJS",
+      "description": "Estudiar operadores avanzados de RxJS",
+      "status": "pending",
+      "createdAt": "2024-01-03T09:30:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "19",
+      "title": "Organizar escritorio",
+      "description": "Limpiar y organizar espacio de trabajo",
+      "status": "completed",
+      "createdAt": "2024-01-02T08:15:00Z",
+      "estimatedDuration": 45
+    },
+    {
+      "id": "20",
+      "title": "Backup de datos",
+      "description": "Realizar backup de la base de datos",
+      "status": "pending",
+      "createdAt": "2024-01-17T23:00:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "21",
+      "title": "Revisar emails",
+      "description": "Responder correos pendientes",
+      "status": "pending",
+      "createdAt": "2024-01-17T08:45:00Z",
+      "estimatedDuration": 60
+    },
+    {
+      "id": "22",
+      "title": "Actualizar CV",
+      "description": "Actualizar currículum vitae",
+      "status": "completed",
+      "createdAt": "2023-12-28T16:00:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "23",
+      "title": "Investigar tecnología",
+      "description": "Investigar nuevas tecnologías frontend",
+      "status": "pending",
+      "createdAt": "2024-01-16T15:30:00Z",
+      "estimatedDuration": 150
+    },
+    {
+      "id": "24",
+      "title": "Configurar CI/CD",
+      "description": "Configurar pipeline de integración continua",
+      "status": "completed",
+      "createdAt": "2023-12-20T10:00:00Z",
+      "estimatedDuration": 480
+    },
+    {
+      "id": "25",
+      "title": "Revisar métricas",
+      "description": "Analizar métricas de rendimiento",
+      "status": "pending",
+      "createdAt": "2024-01-15T11:20:00Z",
+      "estimatedDuration": 90
+    },
+    {
+      "id": "26",
+      "title": "Preparar demo",
+      "description": "Preparar demostración para stakeholders",
+      "status": "completed",
+      "createdAt": "2023-12-15T14:00:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "27",
+      "title": "Code review",
+      "description": "Revisar código de compañeros",
+      "status": "pending",
+      "createdAt": "2024-01-17T13:15:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "28",
+      "title": "Actualizar dependencias",
+      "description": "Actualizar librerías y paquetes",
+      "status": "completed",
+      "createdAt": "2023-12-10T09:45:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "29",
+      "title": "Diseñar mockups",
+      "description": "Crear diseños para nueva feature",
+      "status": "pending",
+      "createdAt": "2024-01-14T16:30:00Z",
+      "estimatedDuration": 300
+    },
+    {
+      "id": "30",
+      "title": "Escribir documentación",
+      "description": "Documentar API endpoints",
+      "status": "completed",
+      "createdAt": "2023-12-05T11:10:00Z",
+      "estimatedDuration": 360
+    },
+    {
+      "id": "31",
+      "title": "Configurar monitoring",
+      "description": "Configurar sistema de monitoreo",
+      "status": "pending",
+      "createdAt": "2024-01-13T10:00:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "32",
+      "title": "Resolver conflictos",
+      "description": "Resolver conflictos de merge",
+      "status": "completed",
+      "createdAt": "2023-11-28T15:20:00Z",
+      "estimatedDuration": 60
+    },
+    {
+      "id": "33",
+      "title": "Planificar vacaciones",
+      "description": "Organizar viaje de vacaciones",
+      "status": "pending",
+      "createdAt": "2024-01-12T12:30:00Z",
+      "estimatedDuration": 90
+    },
+    {
+      "id": "34",
+      "title": "Optimizar imágenes",
+      "description": "Comprimir y optimizar assets",
+      "status": "completed",
+      "createdAt": "2023-11-15T14:45:00Z",
+      "estimatedDuration": 150
+    },
+    {
+      "id": "35",
+      "title": "Implementar feature",
+      "description": "Desarrollar nueva funcionalidad",
+      "status": "pending",
+      "createdAt": "2024-01-11T09:00:00Z",
+      "estimatedDuration": 480
+    },
+    {
+      "id": "36",
+      "title": "Revisar seguridad",
+      "description": "Auditoría de seguridad del código",
+      "status": "completed",
+      "createdAt": "2023-11-10T16:00:00Z",
+      "estimatedDuration": 360
+    },
+    {
+      "id": "37",
+      "title": "Configurar ambiente",
+      "description": "Configurar ambiente de testing",
+      "status": "pending",
+      "createdAt": "2024-01-10T13:45:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "38",
+      "title": "Migrar base de datos",
+      "description": "Migrar datos a nuevo schema",
+      "status": "completed",
+      "createdAt": "2023-10-25T08:30:00Z",
+      "estimatedDuration": 600
+    },
+    {
+      "id": "39",
+      "title": "Capacitación equipo",
+      "description": "Capacitar equipo en nuevas tecnologías",
+      "status": "pending",
+      "createdAt": "2024-01-09T15:00:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "40",
+      "title": "Analizar logs",
+      "description": "Analizar logs de errores",
+      "status": "completed",
+      "createdAt": "2023-10-15T11:20:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "41",
+      "title": "Implementar cache",
+      "description": "Implementar sistema de cache",
+      "status": "pending",
+      "createdAt": "2024-01-08T14:10:00Z",
+      "estimatedDuration": 300
+    },
+    {
+      "id": "42",
+      "title": "Refactorizar servicios",
+      "description": "Refactorizar servicios legacy",
+      "status": "completed",
+      "createdAt": "2023-09-28T10:45:00Z",
+      "estimatedDuration": 480
+    },
+    {
+      "id": "43",
+      "title": "Configurar VPN",
+      "description": "Configurar acceso VPN remoto",
+      "status": "pending",
+      "createdAt": "2024-01-07T16:30:00Z",
+      "estimatedDuration": 90
+    },
+    {
+      "id": "44",
+      "title": "Automatizar tareas",
+      "description": "Crear scripts de automatización",
+      "status": "completed",
+      "createdAt": "2023-09-15T13:00:00Z",
+      "estimatedDuration": 240
+    },
+    {
+      "id": "45",
+      "title": "Revisar performance",
+      "description": "Optimizar rendimiento de aplicación",
+      "status": "pending",
+      "createdAt": "2024-01-06T11:15:00Z",
+      "estimatedDuration": 360
+    },
+    {
+      "id": "46",
+      "title": "Documentar procesos",
+      "description": "Documentar procesos de desarrollo",
+      "status": "completed",
+      "createdAt": "2023-08-20T09:30:00Z",
+      "estimatedDuration": 180
+    },
+    {
+      "id": "47",
+      "title": "Configurar SSL",
+      "description": "Configurar certificados SSL",
+      "status": "pending",
+      "createdAt": "2024-01-05T15:45:00Z",
+      "estimatedDuration": 120
+    },
+    {
+      "id": "48",
+      "title": "Integrar API",
+      "description": "Integrar con API externa",
+      "status": "completed",
+      "createdAt": "2023-08-10T14:20:00Z",
+      "estimatedDuration": 300
+    },
+    {
+      "id": "49",
+      "title": "Crear dashboard",
+      "description": "Desarrollar panel de administración",
+      "status": "pending",
+      "createdAt": "2024-01-04T10:00:00Z",
+      "estimatedDuration": 480
+    },
+    {
+      "id": "50",
+      "title": "Revisar accesibilidad",
+      "description": "Auditoría de accesibilidad WCAG",
+      "status": "completed",
+      "createdAt": "2023-07-25T12:30:00Z",
+      "estimatedDuration": 240
+    }
   ]
 }
