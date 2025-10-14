@@ -1,0 +1,40 @@
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+
+    &.modal-actions {
+        border-top: none;
+        padding-top: 0;
+    }
+}
+
+// Responsive
+@media (max-width: 600px) {
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .task-form {
+        padding: 0.5rem 0;
+    }
+}

@@ -1,0 +1,20 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem 0 1rem;
+}
+
+mat-dialog-content {
+  min-width: 400px;
+  max-width: 600px;
+  padding: 0 1rem;
+}
+
+// Responsive
+@media (max-width: 600px) {
+  mat-dialog-content {
+    min-width: unset;
+    width: 90vw;
+  }
+}

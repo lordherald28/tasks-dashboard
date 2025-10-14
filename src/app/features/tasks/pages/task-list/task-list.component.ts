@@ -5,7 +5,10 @@ import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReusableTableComponent, TableColumn } from "../../../../shared/components/table/reusable-table.component";
-import { RelativeTimePipe } from "../../../../shared/pipes/relative-time.pipe";
+
+import { MatDialog } from '@angular/material/dialog';
+import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -13,9 +16,8 @@ import { RelativeTimePipe } from "../../../../shared/pipes/relative-time.pipe";
   imports: [
     CommonModule,
     MatTooltipModule,
-    ReusableTableComponent,
-    RelativeTimePipe
-],
+    ReusableTableComponent
+  ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -42,12 +44,56 @@ export class TaskListComponent implements OnInit {
     { key: 'status', header: 'Estado', type: 'badge' }
   ];
 
-  constructor(private readonly taskService: TaskService) { }
+  constructor(
+    private readonly taskService: TaskService,
+    private dialog: MatDialog,
+    private router: Router
+
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
+  onAddClick(): void {
+    this.openCreateModal();
+  }
+
+  onEditClick(task: Task): void {
+    // Navegar a la página de edición
+    console.log('Edit button clicked for task:', task);
+    this.router.navigate(['/tasks', task.id, 'edit']);
+  }
+
+  onDeleteClick(task: Task): void {
+    this.remove(task);
+  }
+
+  // Método para abrir modal de creación
+
+  private openCreateModal(): void {
+    const dialogRef = this.dialog.open(TaskModalComponent, {
+      width: '90vw',
+      maxWidth: '600px',
+      data: {} // Sin task = creación
+    });
+
+    dialogRef.afterClosed().subscribe((result: Task) => {
+      if (result) {
+        this.taskService.create(result).subscribe({
+          next: () => {
+            this.loadData(); // Recargar lista
+            // Mostrar snackbar de éxito
+          },
+          error: (error: any) => {
+            // Manejar error
+            console.error('Error al crear la tarea:', error);
+            // Mostrar snackbar de error
+          }
+        });
+      }
+    });
+  }
   // Métodos públicos para manejar eventos del componente reutilizable
   setQuery(searchTerm: string): void {
     this.q$.next(searchTerm);
@@ -57,7 +103,7 @@ export class TaskListComponent implements OnInit {
     this.status$.next(status);
   }
 
-  remove(task: Task): void {
+  private remove(task: Task): void {
     if (confirm(`¿Estás seguro de que quieres eliminar la tarea "${task.title}"?`)) {
       this.taskService.remove(task.id).subscribe(() => {
         // Recargar datos manteniendo los filtros actuales

@@ -31,6 +31,7 @@ export interface TableColumn {
   styleUrls: ['./reusable-table.component.scss']
 })
 export class ReusableTableComponent implements OnInit, OnChanges {
+  // Entradas para datos y configuración
 
   @Input() dataSource: any[] = [];
   @Input() columns: TableColumn[] = [];
@@ -46,16 +47,16 @@ export class ReusableTableComponent implements OnInit, OnChanges {
   @Input() searchPlaceholder: string = 'Buscar...';
   @Input() noDataMessage: string = 'No se encontraron datos';
 
-  @Input() addButtonRoute: string = '';
-  @Input() editButtonRoute: string = '';
-
   @Input() pageSizeOptions: number[] = [5, 10, 25];
   @Input() pageSize: number = 5;
 
   @Output() searchChange = new EventEmitter<string>();
   @Output() statusChange = new EventEmitter<string>();
-  @Output() onDelete = new EventEmitter<any>();
   @Output() onPageChange = new EventEmitter<PageEvent>();
+
+  @Output() addClick = new EventEmitter<void>();
+  @Output() editClick = new EventEmitter<any>();
+  @Output() deleteClick = new EventEmitter<any>();
 
   // Propiedades internas para paginación
   public paginatedData: any[] = [];
@@ -81,6 +82,18 @@ export class ReusableTableComponent implements OnInit, OnChanges {
     if (this.showActions && !this.readonly) columns.push('actions');
 
     return columns;
+  }
+
+  onAddClick(): void {
+    this.addClick.emit();
+  }
+
+  onEditClick(item: any): void {
+    this.editClick.emit(item);
+  }
+
+  onDeleteClick(item: any): void {
+    this.deleteClick.emit(item);
   }
 
   onSearch(value: string): void {

@@ -399,6 +399,14 @@
       "status": "completed",
       "createdAt": "2023-07-25T12:30:00Z",
       "estimatedDuration": 240
+    },
+    {
+      "id": "task_1760441081173_6qga568d8",
+      "title": "Terminar este proyecto",
+      "description": "Este proyecto es para empezar a trabajar en angular v18",
+      "status": "pending",
+      "estimatedDuration": 180,
+      "createdAt": "2025-10-14T11:24:41.173Z"
     }
   ]
 }
