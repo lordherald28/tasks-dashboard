@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MatSlideToggleModule],
   templateUrl: './shell.component.html',
-  styleUrl: './shell.component.scss',
-  // template: `
-  //   <header class="toolbar">Tasks Dashboard</header>
-  //   <main class="container"><router-outlet /></main>
-  // `,
-  // styles: [`
-  //   .toolbar { padding:12px 16px; font-weight:600; border-bottom:1px solid #eee; }
-  //   .container { padding:16px; max-width:1024px; margin:0 auto; }
-  // `]
+  styleUrls: ['./shell.component.scss'],
 })
-export class ShellComponent {}
+export class ShellComponent {
+  toggleDark(on: boolean) { document.body.classList.toggle('dark-theme', on); }
+}

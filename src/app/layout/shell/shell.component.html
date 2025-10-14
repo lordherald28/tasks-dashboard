@@ -1,2 +1,6 @@
-    <header class="toolbar">Tasks Dashboard Nav Bar</header>
-    <main class="container"><router-outlet /></main>
+<header class="toolbar">
+    <span>Tasks Dashboard</span>
+    <span class="spacer"></span>
+    <mat-slide-toggle (change)="toggleDark($event.checked)">Dark</mat-slide-toggle>
+</header>
+<main class="container"><router-outlet /></main>

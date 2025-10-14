@@ -1,4 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// paletas
+$primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$accent:  mat.m2-define-palette(mat.$m2-pink-palette);
+$warn:    mat.m2-define-palette(mat.$m2-red-palette);
+
+// tipografía por defecto (mapa)
+$typography: mat.m2-define-typography-config(
+  $font-family: '"Montserrat Alternates", sans-serif'
+);
+
+// define tema incluyendo tipografía
+$theme: mat.m2-define-light-theme((
+  color: ( primary: $primary, accent: $accent, warn: $warn ),
+  typography: $typography
+));
+
+@include mat.all-component-themes($theme);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Montserrat Alternates", sans-serif;
+}
