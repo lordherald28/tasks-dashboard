@@ -28,14 +28,16 @@ import { MatPaginator } from "@angular/material/paginator";
 export class TaskListComponent implements OnInit, AfterViewInit {
 
 
+  // Observables
   private q$ = new BehaviorSubject<string>(''); // = todos
   private status$ = new BehaviorSubject<string>(''); // '' = todos
   private tasks$!: Observable<Task[]>;
+  public filtered$!: Observable<Task[]>;
 
   public displayedColumns = ['title', 'description', 'status', 'actions'];
-  public filtered$!: Observable<Task[]>;
   public pageSize = 5;
   public pageIndex = 0;
+  public paged$!: Observable<Task[]>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -47,8 +49,19 @@ export class TaskListComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+    const page$ = this.paginator.page.pipe(
+      startWith({ pageIndex: 0, pageSize: this.paginator.pageSize || 5 })
+    );
+
+    // resetear a primera página cuando cambia el filtro
+    this.filtered$.subscribe(() => this.paginator.firstPage());
+
+    this.paged$ = combineLatest([this.filtered$, page$]).pipe(
+      map(([rows, page]) => {
+        const start = page.pageIndex * page.pageSize;
+        return rows.slice(start, start + page.pageSize);
+      })
+    );
   }
 
   /**@public */
@@ -65,25 +78,22 @@ export class TaskListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  public paged$ = combineLatest([this.filtered$, this.paginator.page.pipe(startWith({ pageIndex: 0, pageSize: this.pageSize }))])
-    .pipe(
-      map(([filtered, page]) => {
-        const start = page.pageIndex * page.pageSize;
-        return filtered.slice(start, start + page.pageSize);
-      })
-    );
+
   /**@private */
 
   private loadData(): void {
     const base$ = this.taskService.list().pipe(startWith([] as Task[]), shareReplay(1));
-    this.tasks$ = base$ as Observable<Task[]>;
+    this.tasks$ = base$;
     this.filtered$ = combineLatest([
       base$,
       this.q$.pipe(map(s => s.trim().toLowerCase()), debounceTime(200), distinctUntilChanged()),
       this.status$
     ]).pipe(
-      map(([items, q, st]) => items.filter(t => (st ? t.status === st : true) &&
-        (q ? (t.title + ' ' + t.description).toLowerCase().includes(q) : true))
+      map(([items, q, st]) =>
+        items.filter(t =>
+          (st ? t.status === st : true) &&
+          (q ? (t.title + ' ' + t.description).toLowerCase().includes(q) : true)
+        )
       )
     );
   }

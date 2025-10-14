@@ -1,15 +1,9 @@
-<!-- <div class="toolbar-filter"> -->
-
-
-
-
-<!-- <button mat-flat-button color="primary" class="btn-new" routerLink="/tasks/new">Nueva tarea</button> -->
-<!-- </div> -->
-<!-- <mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-</mat-form-field> -->
 <div class="toolbar-filter">
+  <!-- Boton agregar nueva tarea -->
+  <button mat-raised-button color="primary" routerLink="/tasks/new">
+    <mat-icon>add</mat-icon>
+    Agregar
+  </button>
   <!-- filtro -->
   <mat-form-field class="filter-input">
     <mat-label>Buscar</mat-label>
@@ -51,7 +45,7 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let t">
         <a mat-icon-button [routerLink]="['/tasks', t.id]"><mat-icon>edit</mat-icon></a>
         <button mat-icon-button (click)="remove(t)"><mat-icon>delete</mat-icon></button>
@@ -67,5 +61,5 @@
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25]" [length]="(filtered$ | async)?.length || 0"
-    aria-label="Select page of users"></mat-paginator>
+    aria-label="Select page of users" showFirstLastButtons></mat-paginator>
 </div>
