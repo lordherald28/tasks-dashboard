@@ -97,28 +97,12 @@
       "estimatedDuration": 300
     },
     {
-      "id": "13",
-      "title": "Resolver bugs",
-      "description": "Corregir errores críticos en producción",
-      "status": "pending",
-      "createdAt": "2024-01-17T10:15:00Z",
-      "estimatedDuration": 240
-    },
-    {
       "id": "14",
       "title": "Reunión con cliente",
       "description": "Presentar avances del proyecto",
       "status": "completed",
       "createdAt": "2024-01-05T11:00:00Z",
       "estimatedDuration": 90
-    },
-    {
-      "id": "15",
-      "title": "Hacer deploy",
-      "description": "Desplegar nueva versión en staging",
-      "status": "pending",
-      "createdAt": "2024-01-16T17:00:00Z",
-      "estimatedDuration": 45
     },
     {
       "id": "16",
@@ -161,14 +145,6 @@
       "estimatedDuration": 120
     },
     {
-      "id": "21",
-      "title": "Revisar emails",
-      "description": "Responder correos pendientes",
-      "status": "pending",
-      "createdAt": "2024-01-17T08:45:00Z",
-      "estimatedDuration": 60
-    },
-    {
       "id": "22",
       "title": "Actualizar CV",
       "description": "Actualizar currículum vitae",
@@ -207,14 +183,6 @@
       "status": "completed",
       "createdAt": "2023-12-15T14:00:00Z",
       "estimatedDuration": 240
-    },
-    {
-      "id": "27",
-      "title": "Code review",
-      "description": "Revisar código de compañeros",
-      "status": "pending",
-      "createdAt": "2024-01-17T13:15:00Z",
-      "estimatedDuration": 180
     },
     {
       "id": "28",
@@ -401,18 +369,10 @@
       "estimatedDuration": 240
     },
     {
-      "id": "task_1760441081173_6qga568d8",
-      "title": "Terminar este proyecto",
-      "description": "Este proyecto es para empezar a trabajar en angular v18",
-      "status": "pending",
-      "estimatedDuration": 180,
-      "createdAt": "2025-10-14T11:24:41.173Z"
-    },
-    {
       "id": "task_1760444905310_z4kx6dl70",
       "title": "Buscar de Dios",
       "description": "es necesario la presencia de Dios en cada momento de nuestras vidas.",
-      "status": "pending",
+      "status": "completed",
       "estimatedDuration": 30,
       "createdAt": "2025-10-14T12:28:25.310Z"
     }

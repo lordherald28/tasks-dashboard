@@ -27,6 +27,8 @@ export class TaskListComponent implements OnInit {
   // Observables para filtros
   private q$ = new BehaviorSubject<string>('');
   private status$ = new BehaviorSubject<string>('');
+  private tasks$!: Observable<Task[]>;
+  private localUpdates$ = new BehaviorSubject<Task[]>([]);
 
   // Datos filtrados
   public filteredTasks$!: Observable<Task[]>;
@@ -69,28 +71,33 @@ export class TaskListComponent implements OnInit {
   }
 
   // Método para abrir modal de creación
-
-  private openCreateModal(): void {
+  openCreateModal(): void {
     const dialogRef = this.dialog.open(TaskModalComponent, {
       width: '90vw',
       maxWidth: '600px',
-      data: {} // Sin task = creación
+      data: {},
     });
 
     dialogRef.afterClosed().subscribe((result: Task) => {
       if (result) {
         this.taskService.create(result).subscribe({
-          next: () => {
-            this.loadData(); 
+          next: (newTask) => {
+            // Agregar la nueva tarea tanto localmente como recargando
+            this.addTaskLocally(newTask);
           },
-          error: (error: any) => {
-            // Manejar error
-            console.error('Error al crear la tarea:', error);
-            // Mostrar snackbar de error
+          error: () => {
+            // En caso de error, recargar toda la lista
+            this.loadData();
           }
         });
       }
     });
+  }
+
+  private addTaskLocally(newTask: Task): void {
+    // Agregar la tarea a las actualizaciones locales
+    const currentLocalTasks = this.localUpdates$.value;
+    this.localUpdates$.next([newTask, ...currentLocalTasks]);
   }
   // Métodos públicos para manejar eventos del componente reutilizable
   setQuery(searchTerm: string): void {
@@ -101,36 +108,61 @@ export class TaskListComponent implements OnInit {
     this.status$.next(status);
   }
 
-  private remove(task: Task): void {
+  remove(task: Task): void {
     if (confirm(`¿Estás seguro de que quieres eliminar la tarea "${task.title}"?`)) {
       this.taskService.remove(task.id).subscribe(() => {
-        // Recargar datos manteniendo los filtros actuales
-        this.loadData();
+        // Remover localmente y recargar
+        this.removeTaskLocally(task.id);
+        this.loadData(); // Recargar para asegurar consistencia
       });
     }
   }
 
+  private removeTaskLocally(taskId: string): void {
+    const currentLocalTasks = this.localUpdates$.value;
+    this.localUpdates$.next(currentLocalTasks.filter(task => task.id !== taskId));
+  }
+
+
   // Método privado para cargar y filtrar datos
   private loadData(): void {
-    const tasks$ = this.taskService.list().pipe(
+    const serverTasks$ = this.taskService.list().pipe(
+      map(tasks => tasks.sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )),
       startWith([] as Task[]),
       shareReplay(1)
     );
 
+    // Combinar tareas del servidor con actualizaciones locales
+    this.tasks$ = combineLatest([
+      serverTasks$,
+      this.localUpdates$
+    ]).pipe(
+      map(([serverTasks, localTasks]) => {
+        // Filtrar tareas locales que ya no existen en el servidor (por si se borraron)
+        const validLocalTasks = localTasks.filter(localTask =>
+          !serverTasks.some(serverTask => serverTask.id === localTask.id)
+        );
+        return [...validLocalTasks, ...serverTasks].sort((a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }),
+      shareReplay(1)
+    );
+
     this.filteredTasks$ = combineLatest([
-      tasks$,
+      this.tasks$,
       this.q$.pipe(
-        map(search => search.trim().toLowerCase()),
-        debounceTime(300), // Un poco más de debounce para mejor UX
+        map(s => s.trim().toLowerCase()),
+        debounceTime(300),
         distinctUntilChanged()
       ),
       this.status$
     ]).pipe(
       map(([tasks, searchTerm, statusFilter]) =>
         tasks.filter(task =>
-          // Filtro por estado
           (statusFilter ? task.status === statusFilter : true) &&
-          // Filtro por búsqueda en título y descripción
           (searchTerm ?
             (task.title + ' ' + task.description).toLowerCase().includes(searchTerm)
             : true)
@@ -138,4 +170,6 @@ export class TaskListComponent implements OnInit {
       )
     );
   }
+
+
 }
