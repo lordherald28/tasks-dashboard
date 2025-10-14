@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../config/api';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -16,7 +17,9 @@ export class TaskService {
   ) { }
 
   public list(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.base}`);
+    return this.http.get<Task[]>(this.base).pipe(
+      map(tasks => tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+    );
   }
 
   public get(id: string): Observable<Task> {

@@ -46,7 +46,7 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Duración estimada (minutos)</mat-label>
       <input matInput type="number" formControlName="estimatedDuration" min="1" max="480">
-      <mat-icon matSuffix>schedule</mat-icon>
+      <mat-icon matSuffix>timer</mat-icon>
       <mat-error *ngIf="estimatedDuration?.hasError('required')">
         La duración es obligatoria
       </mat-error>
