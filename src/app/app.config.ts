@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { API_URL } from './core/config/api';
-import { API_VALUE } from './core/utils/const';
+import { API_LOCAL } from './core/utils/const';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimationsAsync(),
-    { provide: API_URL, useValue: API_VALUE }
+    { provide: API_URL, useValue: API_LOCAL }
 
   ]
 };

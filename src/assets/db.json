@@ -1,0 +1,6 @@
+{
+  "tasks": [
+    { "id": "1", "title": "Comprar pan", "description": "Ir a la panadería", "status": "pending" },
+    { "id": "2", "title": "Revisar PR", "description": "Repo Angular", "status": "completed" }
+  ]
+}
