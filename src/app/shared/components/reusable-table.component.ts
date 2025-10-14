@@ -9,11 +9,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 
 export interface TableColumn {
   key: string;
   header: string;
   type?: 'text' | 'badge';
+  pipe?: string; // 'relativeTime' | 'durationFormat' | etc.
 }
 
 @Component({
@@ -23,16 +25,16 @@ export interface TableColumn {
     CommonModule, RouterLink,
     MatTableModule, MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatPaginatorModule, MatTooltipModule
+    MatPaginatorModule, MatTooltipModule, RelativeTimePipe
   ],
   templateUrl: './reusable-table.component.html',
   styleUrls: ['./reusable-table.component.scss']
 })
 export class ReusableTableComponent implements OnInit, OnChanges {
-  
+
   @Input() dataSource: any[] = [];
   @Input() columns: TableColumn[] = [];
-  
+
   @Input() showFilters: boolean = true;
   @Input() showSearchFilter: boolean = true;
   @Input() showStatusFilter: boolean = true;
@@ -40,16 +42,16 @@ export class ReusableTableComponent implements OnInit, OnChanges {
   @Input() showActions: boolean = true;
   @Input() showPagination: boolean = true;
   @Input() readonly: boolean = false;
-  
+
   @Input() searchPlaceholder: string = 'Buscar...';
   @Input() noDataMessage: string = 'No se encontraron datos';
-  
+
   @Input() addButtonRoute: string = '';
   @Input() editButtonRoute: string = '';
-  
+
   @Input() pageSizeOptions: number[] = [5, 10, 25];
   @Input() pageSize: number = 5;
-  
+
   @Output() searchChange = new EventEmitter<string>();
   @Output() statusChange = new EventEmitter<string>();
   @Output() onDelete = new EventEmitter<any>();
@@ -73,11 +75,11 @@ export class ReusableTableComponent implements OnInit, OnChanges {
 
   getDisplayedColumns(): string[] {
     const columns: string[] = [];
-    
+
     if (this.showAddButton) columns.push('add');
     columns.push(...this.columns.map(col => col.key));
     if (this.showActions && !this.readonly) columns.push('actions');
-    
+
     return columns;
   }
 
@@ -101,7 +103,7 @@ export class ReusableTableComponent implements OnInit, OnChanges {
 
   private updatePagination(): void {
     this.totalItems = this.dataSource.length;
-    
+
     if (this.showPagination && this.dataSource.length > 0) {
       const startIndex = this.currentPageIndex * this.pageSize;
       const endIndex = startIndex + this.pageSize;

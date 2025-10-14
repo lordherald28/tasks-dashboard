@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, shareReplay, startWith } from 'rxjs';
 import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReusableTableComponent, TableColumn } from "../../../../shared/components/reusable-table.component";
+import { RelativeTimePipe } from "../../../../shared/pipes/relative-time.pipe";
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [
-    CommonModule, 
-    // RouterLink,
+    CommonModule,
     MatTooltipModule,
-    ReusableTableComponent
-  ],
+    ReusableTableComponent,
+    RelativeTimePipe
+],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -25,14 +25,20 @@ export class TaskListComponent implements OnInit {
   // Observables para filtros
   private q$ = new BehaviorSubject<string>('');
   private status$ = new BehaviorSubject<string>('');
-  
+
   // Datos filtrados
   public filteredTasks$!: Observable<Task[]>;
-  
+
   // Configuración de la tabla
   public tableColumns: TableColumn[] = [
     { key: 'title', header: 'Título', type: 'text' },
     { key: 'description', header: 'Descripción', type: 'text' },
+    {
+      key: 'createdAt',
+      header: 'Creada',
+      type: 'text',
+      pipe: 'relativeTime' // Nueva propiedad para identificar el pipe
+    },
     { key: 'status', header: 'Estado', type: 'badge' }
   ];
 
@@ -43,12 +49,12 @@ export class TaskListComponent implements OnInit {
   }
 
   // Métodos públicos para manejar eventos del componente reutilizable
-  setQuery(searchTerm: string): void { 
-    this.q$.next(searchTerm); 
+  setQuery(searchTerm: string): void {
+    this.q$.next(searchTerm);
   }
 
-  setStatus(status: string): void { 
-    this.status$.next(status); 
+  setStatus(status: string): void {
+    this.status$.next(status);
   }
 
   remove(task: Task): void {
@@ -63,14 +69,14 @@ export class TaskListComponent implements OnInit {
   // Método privado para cargar y filtrar datos
   private loadData(): void {
     const tasks$ = this.taskService.list().pipe(
-      startWith([] as Task[]), 
+      startWith([] as Task[]),
       shareReplay(1)
     );
-    
+
     this.filteredTasks$ = combineLatest([
       tasks$,
       this.q$.pipe(
-        map(search => search.trim().toLowerCase()), 
+        map(search => search.trim().toLowerCase()),
         debounceTime(300), // Un poco más de debounce para mejor UX
         distinctUntilChanged()
       ),
@@ -81,8 +87,8 @@ export class TaskListComponent implements OnInit {
           // Filtro por estado
           (statusFilter ? task.status === statusFilter : true) &&
           // Filtro por búsqueda en título y descripción
-          (searchTerm ? 
-            (task.title + ' ' + task.description).toLowerCase().includes(searchTerm) 
+          (searchTerm ?
+            (task.title + ' ' + task.description).toLowerCase().includes(searchTerm)
             : true)
         )
       )
