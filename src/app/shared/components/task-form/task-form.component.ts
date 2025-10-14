@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,7 +24,7 @@ import { Task } from '../../../core/models/task';
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnChanges {
   @Input() task?: Task; // Para edición
   @Input() isModal: boolean = false; // Si se usa en modal
   @Output() formSubmit = new EventEmitter<Task>();
@@ -40,11 +40,14 @@ export class TaskFormComponent implements OnInit {
     this.taskForm = this.createForm();
   }
 
-  ngOnInit(): void {
-    if (this.task) {
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges called with changes:', changes);
+    if (changes['task'] && this.task) {
+      console.log('Editing task:', this.task);
       this.taskForm.patchValue(this.task);
     }
   }
+
 
   private createForm(): FormGroup {
     return this.fb.group({
@@ -58,7 +61,7 @@ export class TaskFormComponent implements OnInit {
   onSubmit(): void {
     if (this.taskForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      
+
       const formData = this.taskForm.value;
       const taskData: Task = {
         id: this.task?.id || this.generateId(),

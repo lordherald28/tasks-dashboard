@@ -47,9 +47,9 @@ export class TaskEditPageComponent implements OnInit {
 
     private loadTask(id: string): void {
         this.taskService.get(id).subscribe({
-            next: (task) => this.task = task,
-            error: () => {
-                this.snackBar.open('Tarea no encontrada', 'Cerrar', { duration: 3000 });
+            next: (task) => { this.task = task; console.log('Loaded task:', task); },
+            error: (error: any) => {
+                this.snackBar.open('Tarea no encontrada', 'Cerrar', { duration: 10000, horizontalPosition: 'center', verticalPosition: 'top' });
                 this.router.navigate(['/tasks']);
             }
         });

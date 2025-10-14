@@ -61,7 +61,6 @@ export class TaskListComponent implements OnInit {
 
   onEditClick(task: Task): void {
     // Navegar a la página de edición
-    console.log('Edit button clicked for task:', task);
     this.router.navigate(['/tasks', task.id, 'edit']);
   }
 

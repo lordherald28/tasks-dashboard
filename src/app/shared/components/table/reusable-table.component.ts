@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,14 +14,14 @@ export interface TableColumn {
   key: string;
   header: string;
   type?: 'text' | 'badge';
-  pipe?: string; // 'relativeTime' | 'durationFormat' | etc.
+  pipe?: string;
 }
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
   imports: [
-    CommonModule, RouterLink,
+    CommonModule,
     MatTableModule, MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatPaginatorModule, MatTooltipModule, RelativeTimePipe
