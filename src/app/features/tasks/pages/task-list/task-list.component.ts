@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map
 import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ReusableTableComponent, TableColumn } from "../../../../shared/components/reusable-table.component";
+import { ReusableTableComponent, TableColumn } from "../../../../shared/components/table/reusable-table.component";
 import { RelativeTimePipe } from "../../../../shared/pipes/relative-time.pipe";
 
 @Component({

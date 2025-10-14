@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RelativeTimePipe } from '../pipes/relative-time.pipe';
+import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
 
 export interface TableColumn {
   key: string;
