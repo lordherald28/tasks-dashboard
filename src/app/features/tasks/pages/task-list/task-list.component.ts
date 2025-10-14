@@ -9,6 +9,7 @@ import { ReusableTableComponent, TableColumn } from "../../../../shared/componen
 import { MatDialog } from '@angular/material/dialog';
 import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-list',
@@ -16,6 +17,7 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     MatTooltipModule,
+    MatSnackBarModule,
     ReusableTableComponent
   ],
   templateUrl: './task-list.component.html',
@@ -49,7 +51,8 @@ export class TaskListComponent implements OnInit {
   constructor(
     private readonly taskService: TaskService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
 
   ) { }
 
@@ -85,10 +88,14 @@ export class TaskListComponent implements OnInit {
           next: (newTask) => {
             // Agregar la nueva tarea tanto localmente como recargando
             this.addTaskLocally(newTask);
+            this.showNotification('Tarea creada exitosamente', 'success');
+
           },
-          error: () => {
+          error: (error: any) => {
             // En caso de error, recargar toda la lista
             this.loadData();
+            console.error('Error creating task:', error);
+            this.showNotification('Error al crear la tarea', 'error');
           }
         });
       }
@@ -111,19 +118,33 @@ export class TaskListComponent implements OnInit {
 
   remove(task: Task): void {
     if (confirm(`¿Estás seguro de que quieres eliminar la tarea "${task.title}"?`)) {
-      this.taskService.remove(task.id).subscribe(() => {
-        // Remover localmente y recargar
-        this.removeTaskLocally(task.id);
-        this.loadData(); // Recargar para asegurar consistencia
+      this.taskService.remove(task.id).subscribe({
+        next: () => {
+          this.removeTaskLocally(task.id);
+          this.showNotification('Tarea eliminada', 'success');
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+          this.showNotification('Error al eliminar la tarea', 'error');
+        }
       });
     }
+  }
+
+  // Método helper para notificaciones (ya lo tenías)
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']
+    });
   }
 
   private removeTaskLocally(taskId: string): void {
     const currentLocalTasks = this.localUpdates$.value;
     this.localUpdates$.next(currentLocalTasks.filter(task => task.id !== taskId));
   }
-
 
   // Método privado para cargar y filtrar datos
   private loadData(): void {
@@ -171,6 +192,5 @@ export class TaskListComponent implements OnInit {
       )
     );
   }
-
 
 }
