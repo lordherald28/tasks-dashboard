@@ -81,6 +81,36 @@ body {
   align-self: flex-end;
 }
 
+// Ajustes globales para scroll en dispositivos móviles
+@media (max-width: 768px) {
+  .table-responsive-container {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    // Indicador visual de que hay más contenido
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+  }
+}
+
+// Mejora visual para la paginación en móviles
+@media (max-width: 480px) {
+  .mat-paginator-range-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .mat-paginator-page-size {
+    margin-bottom: 8px;
+  }
+}
+
 // paletas
 $primary: mat.m2-define-palette(mat.$m2-indigo-palette);
 $accent: mat.m2-define-palette(mat.$m2-pink-palette);
