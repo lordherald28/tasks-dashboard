@@ -1,0 +1,1 @@
+export const API_VALUE: string = 'https://&lt;tu-subdominio&gt;.mockapi.io/api/v1';
