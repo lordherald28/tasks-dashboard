@@ -11,6 +11,7 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map
 import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
 import { MatPaginator } from "@angular/material/paginator";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-task-list',
@@ -19,7 +20,7 @@ import { MatPaginator } from "@angular/material/paginator";
     CommonModule, RouterLink,
     MatTableModule, MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatPaginator
+    MatPaginator, MatTooltipModule
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
@@ -34,7 +35,7 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   private tasks$!: Observable<Task[]>;
   public filtered$!: Observable<Task[]>;
 
-  public displayedColumns = ['title', 'description', 'status', 'actions'];
+  public displayedColumns = ['add','title', 'description', 'status', 'actions'];
   public pageSize = 5;
   public pageIndex = 0;
   public paged$!: Observable<Task[]>;

@@ -1,9 +1,5 @@
-<div class="controls">
-  <!-- Boton agregar nueva tarea -->
-  <button mat-stroked-button color="secundary" class="btn-ghost" routerLink="/tasks/new">
-    <mat-icon>add</mat-icon>
-    Agregar
-  </button>
+<div class="toolbar-filter">
+
   <!-- filtro -->
   <mat-form-field class="filter-input">
     <mat-label>Buscar</mat-label>
@@ -24,6 +20,15 @@
 <!-- Tabla listado de tareas -->
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="(paged$ | async) ?? []" class="mat-elevation-z1 full">
+    <ng-container matColumnDef="add">
+      <th mat-header-cell *matHeaderCellDef>
+        <a matTooltip="Agregar nueva tarea" mat-mini-fab color="secundary"
+          [routerLink]="['/tasks', 'new']"><mat-icon>add</mat-icon></a>
+      </th>
+      <td mat-cell *matCellDef="let t"></td>
+
+    </ng-container>
+
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Título</th>
