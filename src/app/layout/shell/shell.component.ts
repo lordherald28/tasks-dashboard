@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "../../../../node_modules/@angular/router/index";
 
 @Component({
   selector: 'app-shell',
