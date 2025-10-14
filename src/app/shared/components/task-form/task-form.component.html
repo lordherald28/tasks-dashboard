@@ -58,18 +58,17 @@
       </mat-error>
     </mat-form-field>
   </div>
-
-  <!-- Acciones -->
-  <div class="form-actions" [class.modal-actions]="isModal">
-    <button type="button" mat-button (click)="onCancel()">
-      Cancelar
-    </button>
-    <button type="submit" mat-raised-button color="primary" 
-            [disabled]="isSubmitting || taskForm.invalid">
-      <span *ngIf="isSubmitting">Guardando...</span>
-      <span *ngIf="!isSubmitting">
-        {{ task ? 'Actualizar' : 'Crear' }} Tarea
-      </span>
-    </button>
-  </div>
+<!-- Acciones -->
+<div class="form-actions" [class.modal-actions]="isModal">
+  <button type="button" mat-stroked-button (click)="onCancel()" [disabled]="isSubmitting">
+    Cancelar
+  </button>
+  <button type="submit" mat-raised-button color="primary" 
+          [disabled]="isSubmitting || taskForm.invalid">
+    <span *ngIf="isSubmitting">Guardando...</span>
+    <span *ngIf="!isSubmitting">
+      {{ task ? 'Actualizar' : 'Crear' }} Tarea
+    </span>
+  </button>
+</div>
 </form>

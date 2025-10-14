@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { Task } from '../../../core/models/task';
-import { MatIcon } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
+
 
 export interface TaskModalData {
     task?: Task; // Para edición en modal
@@ -16,16 +17,13 @@ export interface TaskModalData {
         CommonModule,
         MatDialogModule,
         TaskFormComponent,
-        MatIcon
+        MatIconModule
     ],
     template: `
     <div class="modal-header">
       <h2 mat-dialog-title>
         {{ data.task ? 'Editar Tarea' : 'Nueva Tarea' }}
       </h2>
-      <button mat-icon-button (click)="onCancel()">
-        <mat-icon>close</mat-icon>
-      </button>
     </div>
     
     <mat-dialog-content>

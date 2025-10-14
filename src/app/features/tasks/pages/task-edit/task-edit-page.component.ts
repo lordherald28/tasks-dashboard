@@ -13,7 +13,7 @@ import { TaskService } from '../../../../core/services/task.service';
     imports: [CommonModule, TaskFormComponent],
     template: `
     <div class="edit-page-container">
-      <div class="page-header">
+      <div class="page-header" >
         <h1>{{ task ? 'Editar Tarea' : 'Nueva Tarea' }}</h1>
       </div>
       
@@ -47,7 +47,7 @@ export class TaskEditPageComponent implements OnInit {
 
     private loadTask(id: string): void {
         this.taskService.get(id).subscribe({
-            next: (task) => { this.task = task;},
+            next: (task) => { this.task = task; },
             error: (error: any) => {
                 this.snackBar.open('Tarea no encontrada', 'Cerrar', { duration: 10000, horizontalPosition: 'center', verticalPosition: 'top' });
                 this.router.navigate(['/tasks']);

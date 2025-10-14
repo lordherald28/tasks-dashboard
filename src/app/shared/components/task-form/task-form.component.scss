@@ -16,25 +16,26 @@
 }
 
 .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
 
-    &.modal-actions {
-        border-top: none;
-        padding-top: 0;
-    }
+  &.modal-actions {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 1rem;
+  }
 }
 
 // Responsive
 @media (max-width: 600px) {
-    .form-actions {
-        flex-direction: column-reverse;
+  .form-actions {
+    flex-direction: column-reverse;
+    
+    button {
+      width: 100%;
     }
-
-    .task-form {
-        padding: 0.5rem 0;
-    }
+  }
 }

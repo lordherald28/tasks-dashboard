@@ -76,6 +76,7 @@ export class TaskListComponent implements OnInit {
       width: '90vw',
       maxWidth: '600px',
       data: {},
+      disableClose: false
     });
 
     dialogRef.afterClosed().subscribe((result: Task) => {
