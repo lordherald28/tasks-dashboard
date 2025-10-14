@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, shareReplay, startWith, switchMap } from 'rxjs';
 import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: 'app-task-list',
@@ -17,48 +18,83 @@ import { Task } from '../../../../core/models/task';
   imports: [
     CommonModule, RouterLink,
     MatTableModule, MatButtonModule, MatIconModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule
+    MatFormFieldModule, MatInputModule, MatSelectModule,
+    MatPaginator
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit, AfterViewInit {
 
+
+  // Observables
   private q$ = new BehaviorSubject<string>(''); // = todos
   private status$ = new BehaviorSubject<string>(''); // '' = todos
   private tasks$!: Observable<Task[]>;
+  public filtered$!: Observable<Task[]>;
 
   public displayedColumns = ['title', 'description', 'status', 'actions'];
-  public filtered$!: Observable<Task[]>;
-  
-  constructor(private readonly taskService: TaskService) {
-  }
+  public pageSize = 5;
+  public pageIndex = 0;
+  public paged$!: Observable<Task[]>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private readonly taskService: TaskService) { }
 
   ngOnInit(): void {
-    const base$ = this.taskService.list().pipe(startWith([] as Task[]), shareReplay(1));
-    this.tasks$ = base$ as Observable<Task[]>;
-    this.filtered$ = combineLatest([
-      base$,
-      this.q$.pipe(map(s => s.trim().toLowerCase()), debounceTime(200), distinctUntilChanged()),
-      this.status$
-    ]).pipe(
-      map(([items, q, st]) =>
-        items.filter(t => (st ? t.status === st : true) &&
-          (q ? (t.title + ' ' + t.description).toLowerCase().includes(q) : true))
-      )
+    this.loadData();
+  }
+
+
+  ngAfterViewInit(): void {
+    const page$ = this.paginator.page.pipe(
+      startWith({ pageIndex: 0, pageSize: this.paginator.pageSize || 5 })
+    );
+
+    // resetear a primera página cuando cambia el filtro
+    this.filtered$.subscribe(() => this.paginator.firstPage());
+
+    this.paged$ = combineLatest([this.filtered$, page$]).pipe(
+      map(([rows, page]) => {
+        const start = page.pageIndex * page.pageSize;
+        return rows.slice(start, start + page.pageSize);
+      })
     );
   }
 
-  setQuery(v: string) { this.q$.next(v); }
-  setStatus(v: string) { this.status$.next(v); }
+  /**@public */
 
-  remove(t: Task) {
+  setQuery(v: string): void { this.q$.next(v); }
+  setStatus(v: string): void { this.status$.next(v); }
+
+  remove(t: Task): void {
     this.taskService.remove(t.id)
       .pipe(switchMode => this.taskService.list()) // opcional: reproveer lista
       .subscribe(() => {
         this.q$.next(this.q$.value);
         this.status$.next(this.status$.value);
       });
+  }
+
+
+  /**@private */
+
+  private loadData(): void {
+    const base$ = this.taskService.list().pipe(startWith([] as Task[]), shareReplay(1));
+    this.tasks$ = base$;
+    this.filtered$ = combineLatest([
+      base$,
+      this.q$.pipe(map(s => s.trim().toLowerCase()), debounceTime(200), distinctUntilChanged()),
+      this.status$
+    ]).pipe(
+      map(([items, q, st]) =>
+        items.filter(t =>
+          (st ? t.status === st : true) &&
+          (q ? (t.title + ' ' + t.description).toLowerCase().includes(q) : true)
+        )
+      )
+    );
   }
 }

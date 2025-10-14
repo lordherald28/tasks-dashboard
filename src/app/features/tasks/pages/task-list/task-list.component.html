@@ -1,49 +1,65 @@
-<div class="toolbar">
-    <span class="title">Tasks</span>
-    <span class="spacer"></span>
+<div class="controls">
+  <!-- Boton agregar nueva tarea -->
+  <button mat-stroked-button color="secundary" class="btn-ghost" routerLink="/tasks/new">
+    <mat-icon>add</mat-icon>
+    Agregar
+  </button>
+  <!-- filtro -->
+  <mat-form-field class="filter-input">
+    <mat-label>Buscar</mat-label>
+    <input matInput (input)="setQuery($any($event.target).value)" placeholder="Título o descripción" #input>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Buscar</mat-label>
-        <input matInput (input)="setQuery($any($event.target).value)" placeholder="título o descripción" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Estado</mat-label>
-        <mat-select (selectionChange)="setStatus($event.value)">
-            <mat-option value="">Todos</mat-option>
-            <mat-option value="pending">Pendiente</mat-option>
-            <mat-option value="completed">Completada</mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <a mat-raised-button color="primary" routerLink="/tasks/new">Nueva</a>
+  <!-- buscar por estado -->
+  <mat-form-field appearance="fill" class="filter-select">
+    <mat-label>Estado</mat-label>
+    <mat-select (selectionChange)="setStatus($event.value)">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="pending">Pendiente</mat-option>
+      <mat-option value="completed">Completada</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
-
-<table mat-table [dataSource]="(filtered$ | async) ?? []" class="mat-elevation-z1 full">
+<!-- Tabla listado de tareas -->
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="(paged$ | async) ?? []" class="mat-elevation-z1 full">
 
     <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Título</th>
-        <td mat-cell *matCellDef="let t">{{t.title}}</td>
+      <th mat-header-cell *matHeaderCellDef>Título</th>
+      <td mat-cell *matCellDef="let t">{{ t.title }}</td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Descripción</th>
-        <td mat-cell *matCellDef="let t">{{t.description}}</td>
+      <th mat-header-cell *matHeaderCellDef>Descripción</th>
+      <td mat-cell *matCellDef="let t">{{ t.description }}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let t">{{t.status}}</td>
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let t">
+        <span class="badge" [ngClass]="t.status === 'completed' ? 'badge-completed' : 'badge-pending'">
+          {{ t.status }}
+        </span>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let t">
-            <a mat-icon-button [routerLink]="['/tasks', t.id]"><mat-icon>edit</mat-icon></a>
-            <button mat-icon-button (click)="remove(t)"><mat-icon>delete</mat-icon></button>
-        </td>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let t">
+        <a mat-icon-button [routerLink]="['/tasks', t.id]"><mat-icon>edit</mat-icon></a>
+        <button mat-icon-button (click)="remove(t)"><mat-icon>delete</mat-icon></button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+
+    <!-- Mostrar fila cuando no hay datos para mostrar -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4" class="p-1">Ningún dato coincide con el filtro "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" [length]="(filtered$ | async)?.length || 0"
+    aria-label="Select page of users" showFirstLastButtons></mat-paginator>
+</div>
