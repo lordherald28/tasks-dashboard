@@ -1,0 +1,30 @@
+.modal-header {
+  display: flex;
+  justify-content: center; /* Centrar el título */
+  align-items: center;
+  padding: 1rem 1rem 0 1rem;
+  
+  h2 {
+    margin: 0;
+    color: #3f51b5; /* Color primario de Material */
+  }
+}
+
+mat-dialog-content {
+  min-width: 400px;
+  max-width: 600px;
+  padding: 0 1rem 1rem 1rem; /* Más padding en la parte inferior */
+}
+
+// Responsive
+@media (max-width: 600px) {
+  mat-dialog-content {
+    min-width: unset;
+    width: 90vw;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+  }
+  
+  .modal-header {
+    padding: 0.5rem 0.5rem 0 0.5rem;
+  }
+}

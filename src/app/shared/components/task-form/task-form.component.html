@@ -1,0 +1,74 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+  <div class="form-fields">
+    <!-- Título -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="¿Qué necesitas hacer?">
+      <mat-icon matSuffix>title</mat-icon>
+      <mat-error *ngIf="title?.hasError('required')">
+        El título es obligatorio
+      </mat-error>
+      <mat-error *ngIf="title?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+      <mat-error *ngIf="title?.hasError('maxlength')">
+        Máximo 100 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" 
+                placeholder="Describe la tarea en detalle..."
+                rows="4"></textarea>
+      <mat-error *ngIf="description?.hasError('required')">
+        La descripción es obligatoria
+      </mat-error>
+      <mat-error *ngIf="description?.hasError('minlength')">
+        Mínimo 5 caracteres
+      </mat-error>
+      <mat-error *ngIf="description?.hasError('maxlength')">
+        Máximo 500 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Estado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="pending">⏳ Pendiente</mat-option>
+        <mat-option value="completed">✅ Completada</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Duración Estimada -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Duración estimada (minutos)</mat-label>
+      <input matInput type="number" formControlName="estimatedDuration" min="1" max="480">
+      <mat-icon matSuffix>timer</mat-icon>
+      <mat-error *ngIf="estimatedDuration?.hasError('required')">
+        La duración es obligatoria
+      </mat-error>
+      <mat-error *ngIf="estimatedDuration?.hasError('min')">
+        Mínimo 1 minuto
+      </mat-error>
+      <mat-error *ngIf="estimatedDuration?.hasError('max')">
+        Máximo 480 minutos (8 horas)
+      </mat-error>
+    </mat-form-field>
+  </div>
+<!-- Acciones -->
+<div class="form-actions" [class.modal-actions]="isModal">
+  <button type="button" mat-stroked-button (click)="onCancel()" [disabled]="isSubmitting">
+    Cancelar
+  </button>
+  <button type="submit" mat-raised-button color="primary" 
+          [disabled]="isSubmitting || taskForm.invalid">
+    <span *ngIf="isSubmitting">Guardando...</span>
+    <span *ngIf="!isSubmitting">
+      {{ task ? 'Actualizar' : 'Crear' }} Tarea
+    </span>
+  </button>
+</div>
+</form>

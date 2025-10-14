@@ -11,11 +11,11 @@
   [showActions]="true"
   [showPagination]="true"
   [readonly]="false"
-  [addButtonRoute]="'/tasks/new'"
-  [editButtonRoute]="'/tasks'"
   searchPlaceholder="Buscar por título o descripción..."
   noDataMessage="No se encontraron tareas"
   (searchChange)="setQuery($event)"
   (statusChange)="setStatus($event)"
-  (onDelete)="remove($event)">
+  (addClick)="onAddClick()"
+  (editClick)="onEditClick($event)"
+  (deleteClick)="onDeleteClick($event)">
 </app-reusable-table>

@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,20 +8,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RelativeTimePipe } from '../pipes/relative-time.pipe';
+import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
 
 export interface TableColumn {
   key: string;
   header: string;
   type?: 'text' | 'badge';
-  pipe?: string; // 'relativeTime' | 'durationFormat' | etc.
+  pipe?: string;
 }
 
 @Component({
   selector: 'app-reusable-table',
   standalone: true,
   imports: [
-    CommonModule, RouterLink,
+    CommonModule,
     MatTableModule, MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatPaginatorModule, MatTooltipModule, RelativeTimePipe
@@ -31,6 +30,7 @@ export interface TableColumn {
   styleUrls: ['./reusable-table.component.scss']
 })
 export class ReusableTableComponent implements OnInit, OnChanges {
+  // Entradas para datos y configuración
 
   @Input() dataSource: any[] = [];
   @Input() columns: TableColumn[] = [];
@@ -46,16 +46,16 @@ export class ReusableTableComponent implements OnInit, OnChanges {
   @Input() searchPlaceholder: string = 'Buscar...';
   @Input() noDataMessage: string = 'No se encontraron datos';
 
-  @Input() addButtonRoute: string = '';
-  @Input() editButtonRoute: string = '';
-
   @Input() pageSizeOptions: number[] = [5, 10, 25];
   @Input() pageSize: number = 5;
 
   @Output() searchChange = new EventEmitter<string>();
   @Output() statusChange = new EventEmitter<string>();
-  @Output() onDelete = new EventEmitter<any>();
   @Output() onPageChange = new EventEmitter<PageEvent>();
+
+  @Output() addClick = new EventEmitter<void>();
+  @Output() editClick = new EventEmitter<any>();
+  @Output() deleteClick = new EventEmitter<any>();
 
   // Propiedades internas para paginación
   public paginatedData: any[] = [];
@@ -81,6 +81,18 @@ export class ReusableTableComponent implements OnInit, OnChanges {
     if (this.showActions && !this.readonly) columns.push('actions');
 
     return columns;
+  }
+
+  onAddClick(): void {
+    this.addClick.emit();
+  }
+
+  onEditClick(item: any): void {
+    this.editClick.emit(item);
+  }
+
+  onDeleteClick(item: any): void {
+    this.deleteClick.emit(item);
   }
 
   onSearch(value: string): void {

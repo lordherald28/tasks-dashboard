@@ -1,0 +1,29 @@
+.edit-page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .edit-page-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .form-container {
+    padding: 1rem;
+    box-shadow: none;
+  }
+}
