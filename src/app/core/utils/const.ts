@@ -1,1 +1,1 @@
-export const API_VALUE: string = 'https://&lt;tu-subdominio&gt;.mockapi.io/api/v1';
+export const API_VALUE: string = 'https://68edac67df2025af7800c70c.mockapi.io/api/tasks-dashboard/';
