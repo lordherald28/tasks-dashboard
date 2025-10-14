@@ -1,6 +1,13 @@
 <header class="toolbar">
-    <span>Tasks Dashboard</span>
-    <span class="spacer"></span>
-    <mat-slide-toggle (change)="toggleDark($event.checked)">Dark</mat-slide-toggle>
+  <div class="app-logo-text">
+    <img src="img/logo1.png" alt="Logo" class="logo" />
+    <span class="logo-text">Tasks</span>
+  </div>
+  <span class="spacer"></span>
+  <button mat-button class="btn-logout" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>    
+  </button>
 </header>
-<main class="container"><router-outlet /></main>
+<main class="app-container">
+  <router-outlet></router-outlet>
+</main>
