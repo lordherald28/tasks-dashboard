@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskFormComponent } from '../../../../shared/components/task-form/task-form.component';
 import { Task } from '../../../../core/models/task';
 import { TaskService } from '../../../../core/services/task.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class TaskEditPageComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private taskService: TaskService,
-        private snackBar: MatSnackBar
+        private notificationService: NotificationService
     ) { }
 
     ngOnInit(): void {
@@ -49,7 +50,7 @@ export class TaskEditPageComponent implements OnInit {
         this.taskService.get(id).subscribe({
             next: (task) => { this.task = task; },
             error: (error: any) => {
-                this.snackBar.open('Tarea no encontrada', 'Cerrar', { duration: 10000, horizontalPosition: 'center', verticalPosition: 'top' });
+                this.notificationService.error('Tarea no encontrada');
                 this.router.navigate(['/tasks']);
             }
         });
@@ -61,11 +62,11 @@ export class TaskEditPageComponent implements OnInit {
         operation.subscribe({
             next: () => {
                 const message = this.task ? 'Tarea actualizada' : 'Tarea creada';
-                this.snackBar.open(message, 'Cerrar', { duration: 3000 });
+                this.notificationService.success(message);
                 this.router.navigate(['/tasks']);
             },
             error: () => {
-                this.snackBar.open('Error al guardar la tarea', 'Cerrar', { duration: 3000 });
+                this.notificationService.error('Error al guardar la tarea');
             }
         });
     }

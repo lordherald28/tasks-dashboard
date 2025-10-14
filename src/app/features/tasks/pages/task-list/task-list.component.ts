@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-task-list',
@@ -52,7 +53,7 @@ export class TaskListComponent implements OnInit {
     private readonly taskService: TaskService,
     private dialog: MatDialog,
     private router: Router,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
 
   ) { }
 
@@ -88,14 +89,14 @@ export class TaskListComponent implements OnInit {
           next: (newTask) => {
             // Agregar la nueva tarea tanto localmente como recargando
             this.addTaskLocally(newTask);
-            this.showNotification('Tarea creada exitosamente', 'success');
+            this.notificationService.success('Tarea creada exitosamente');
 
           },
           error: (error: any) => {
             // En caso de error, recargar toda la lista
             this.loadData();
             console.error('Error creating task:', error);
-            this.showNotification('Error al crear la tarea', 'error');
+            this.notificationService.error('Error al crear la tarea');
           }
         });
       }
@@ -121,29 +122,21 @@ export class TaskListComponent implements OnInit {
       this.taskService.remove(task.id).subscribe({
         next: () => {
           this.removeTaskLocally(task.id);
-          this.showNotification('Tarea eliminada', 'success');
+          this.notificationService.success('Tarea eliminada');
         },
         error: (error) => {
           console.error('Error deleting task:', error);
-          this.showNotification('Error al eliminar la tarea', 'error');
+          this.notificationService.error('Error al eliminar la tarea');
         }
       });
     }
   }
 
-  // Método helper para notificaciones (ya lo tenías)
-  private showNotification(message: string, type: 'success' | 'error'): void {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']
-    });
-  }
-
   private removeTaskLocally(taskId: string): void {
+    // const currentLocalTasks = this.localUpdates$.value;
+    // this.localUpdates$.next([newTask, ...currentLocalTasks]);
     const currentLocalTasks = this.localUpdates$.value;
-    this.localUpdates$.next(currentLocalTasks.filter(task => task.id !== taskId));
+    this.localUpdates$.next(currentLocalTasks.filter((task: Task) => task.id !== taskId));
   }
 
   // Método privado para cargar y filtrar datos

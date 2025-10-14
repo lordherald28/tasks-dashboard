@@ -99,6 +99,32 @@ body {
   }
 }
 
+// Snackbar styles - Todos los tipos
+.snackbar-success {
+  width: 100%;
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-left: 4px solid #2e7d32;
+}
+
+.snackbar-error {
+  background-color: #f44336 !important;
+  color: white !important;
+  border-left: 4px solid #c62828;
+}
+
+.snackbar-info {
+  background-color: #2196f3 !important;
+  color: white !important;
+  border-left: 4px solid #1565c0;
+}
+
+.snackbar-warning {
+  background-color: #ff9800 !important;
+  color: white !important;
+  border-left: 4px solid #ef6c00;
+}
+
 // Mejora visual para la paginación en móviles
 @media (max-width: 480px) {
   .mat-paginator-range-actions {
