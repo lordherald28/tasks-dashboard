@@ -99,32 +99,6 @@ body {
   }
 }
 
-// Snackbar styles - Todos los tipos
-.snackbar-success {
-  width: 100%;
-  background-color: #4caf50 !important;
-  color: white !important;
-  border-left: 4px solid #2e7d32;
-}
-
-.snackbar-error {
-  background-color: #f44336 !important;
-  color: white !important;
-  border-left: 4px solid #c62828;
-}
-
-.snackbar-info {
-  background-color: #2196f3 !important;
-  color: white !important;
-  border-left: 4px solid #1565c0;
-}
-
-.snackbar-warning {
-  background-color: #ff9800 !important;
-  color: white !important;
-  border-left: 4px solid #ef6c00;
-}
-
 // Mejora visual para la paginación en móviles
 @media (max-width: 480px) {
   .mat-paginator-range-actions {
@@ -151,13 +125,65 @@ $theme: mat.m2-define-light-theme((color: (primary: $primary, accent: $accent, w
       typography: $typography));
 
 @include mat.all-component-themes($theme);
-// define tema oscuro
-$dark-theme: mat.m2-define-dark-theme((color: (primary: $primary, accent: $accent, warn: $warn ),
-      typography: $typography));
 
-// cuando el cuerpo tenga `.dark-theme`
-.dark-theme {
-  @include mat.all-component-colors($dark-theme);
-  background-color: #424242b7; // negro carbón, puedes cambiar hex
-  color: #e0e0e0; // texto claro
+// CUSTOM SNACKBAR THEME - Agregar después del tema principal
+.snackbar-custom-theme {
+
+  // SnackBar de éxito
+  &.snackbar-success {
+    --mdc-snackbar-container-color: #4caf50;
+    --mdc-snackbar-supporting-text-color: white;
+    --mat-snack-bar-button-color: white;
+
+    .mdc-snackbar__surface {
+      background: #4caf50 !important;
+      border-left: 4px solid #2e7d32;
+    }
+  }
+
+  // SnackBar de error
+  &.snackbar-error {
+    --mdc-snackbar-container-color: #f44336;
+    --mdc-snackbar-supporting-text-color: white;
+    --mat-snack-bar-button-color: white;
+
+    .mdc-snackbar__surface {
+      background: #f44336 !important;
+      border-left: 4px solid #c62828;
+    }
+  }
+
+  // SnackBar de info
+  &.snackbar-info {
+    --mdc-snackbar-container-color: #2196f3;
+    --mdc-snackbar-supporting-text-color: white;
+    --mat-snack-bar-button-color: white;
+
+    .mdc-snackbar__surface {
+      background: #2196f3 !important;
+      border-left: 4px solid #1565c0;
+    }
+  }
+
+  // SnackBar de warning
+  &.snackbar-warning {
+    --mdc-snackbar-container-color: #ff9800;
+    --mdc-snackbar-supporting-text-color: white;
+    --mat-snack-bar-button-color: white;
+
+    .mdc-snackbar__surface {
+      background: #ff9800 !important;
+      border-left: 4px solid #ef6c00;
+    }
+  }
 }
+  // define tema oscuro
+  $dark-theme: mat.m2-define-dark-theme((color: (primary: $primary, accent: $accent, warn: $warn ),
+        typography: $typography));
+
+  // cuando el cuerpo tenga `.dark-theme`
+  .dark-theme {
+    @include mat.all-component-colors($dark-theme);
+    background-color: #424242b7;
+    color: #e0e0e0;
+  }

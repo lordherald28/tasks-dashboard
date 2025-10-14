@@ -50,13 +50,13 @@ export class NotificationService {
     }
 
     private showSnackbar(notification: Notification): void {
-        const panelClass = `snackbar-${notification.type}`;
+        const panelClass = ['snackbar-custom-theme', `snackbar-${notification.type}`];
 
         this.snackBar.open(notification.message, 'Cerrar', {
-            duration:600000 /* notification.duration || 10000 */,
+            duration: notification.duration || 3000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
-            panelClass: [panelClass]
+            panelClass: panelClass
         });
     }
 }
