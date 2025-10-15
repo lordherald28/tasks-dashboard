@@ -6,11 +6,15 @@ import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReusableTableComponent, TableColumn } from "../../../../shared/components/table/reusable-table.component";
 
+
 import { MatDialog } from '@angular/material/dialog';
 import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { ConfirmationDialogComponent } from '../../../../shared/components/dialog/confirmation-dialog.component';
+import { ConfirmationDialogData } from '../../../../core/models/modals';
+import { AuthService } from '../../../../core/services/auth.service';
+import { User } from '../../../../core/models/auth';
 
 @Component({
   selector: 'app-task-list',
@@ -18,23 +22,20 @@ import { NotificationService } from '../../../../core/services/notification.serv
   imports: [
     CommonModule,
     MatTooltipModule,
-    MatSnackBarModule,
     ReusableTableComponent
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TaskListComponent implements OnInit {
-
-  // Observables para filtros
+  // Observables simples
   private q$ = new BehaviorSubject<string>('');
   private status$ = new BehaviorSubject<string>('');
-  private tasks$!: Observable<Task[]>;
-  private localUpdates$ = new BehaviorSubject<Task[]>([]);
-
-  // Datos filtrados
   public filteredTasks$!: Observable<Task[]>;
+  public currentUser$: Observable<User> = new Observable<User>();
+
+  public taksList = new Array<Task>();
 
   // Configuración de la tabla
   public tableColumns: TableColumn[] = [
@@ -44,7 +45,7 @@ export class TaskListComponent implements OnInit {
       key: 'createdAt',
       header: 'Creada',
       type: 'text',
-      pipe: 'relativeTime' // Nueva propiedad para identificar el pipe
+      pipe: 'relativeTime'
     },
     { key: 'status', header: 'Estado', type: 'badge' }
   ];
@@ -53,20 +54,21 @@ export class TaskListComponent implements OnInit {
     private readonly taskService: TaskService,
     private dialog: MatDialog,
     private router: Router,
-    private notificationService: NotificationService
-
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser$ = this.authService.currentUser$ as Observable<User>;
     this.loadData();
   }
 
+  // Métodos simples
   onAddClick(): void {
     this.openCreateModal();
   }
 
   onEditClick(task: Task): void {
-    // Navegar a la página de edición
     this.router.navigate(['/tasks', task.id, 'edit']);
   }
 
@@ -74,28 +76,23 @@ export class TaskListComponent implements OnInit {
     this.remove(task);
   }
 
-  // Método para abrir modal de creación
   openCreateModal(): void {
     const dialogRef = this.dialog.open(TaskModalComponent, {
       width: '90vw',
       maxWidth: '600px',
-      data: {},
-      disableClose: false
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe((result: Task) => {
       if (result) {
         this.taskService.create(result).subscribe({
-          next: (newTask) => {
-            // Agregar la nueva tarea tanto localmente como recargando
-            this.addTaskLocally(newTask);
-            this.notificationService.success('Tarea creada exitosamente');
+          next: (value: Task) => {
+            console.log('value: ', value)
 
+            this.loadData(); // Recarga simple
+            this.notificationService.success('Tarea creada exitosamente');
           },
-          error: (error: any) => {
-            // En caso de error, recargar toda la lista
-            this.loadData();
-            console.error('Error creating task:', error);
+          error: () => {
             this.notificationService.error('Error al crear la tarea');
           }
         });
@@ -103,12 +100,6 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  private addTaskLocally(newTask: Task): void {
-    // Agregar la tarea a las actualizaciones locales
-    const currentLocalTasks = this.localUpdates$.value;
-    this.localUpdates$.next([newTask, ...currentLocalTasks]);
-  }
-  // Métodos públicos para manejar eventos del componente reutilizable
   setQuery(searchTerm: string): void {
     this.q$.next(searchTerm);
   }
@@ -118,56 +109,34 @@ export class TaskListComponent implements OnInit {
   }
 
   remove(task: Task): void {
-    if (confirm(`¿Estás seguro de que quieres eliminar la tarea "${task.title}"?`)) {
-      this.taskService.remove(task.id).subscribe({
-        next: () => {
-          this.removeTaskLocally(task.id);
-          this.notificationService.success('Tarea eliminada');
-        },
-        error: (error) => {
-          console.error('Error deleting task:', error);
-          this.notificationService.error('Error al eliminar la tarea');
-        }
-      });
-    }
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Eliminar Tarea',
+        message: `¿Estás seguro de que quieres eliminar la tarea "${task.title}"? Esta acción no se puede deshacer.`,
+        confirmText: 'Eliminar',
+        cancelText: 'Cancelar',
+        type: 'danger'
+      } as ConfirmationDialogData
+    });
 
-  private removeTaskLocally(taskId: string): void {
-    // const currentLocalTasks = this.localUpdates$.value;
-    // this.localUpdates$.next([newTask, ...currentLocalTasks]);
-    const currentLocalTasks = this.localUpdates$.value;
-    this.localUpdates$.next(currentLocalTasks.filter((task: Task) => task.id !== taskId));
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.remove(task.id).subscribe({
+          next: () => {
+            this.loadData();
+            this.notificationService.success('Tarea eliminada');
+          },
+          error: () => {
+            this.notificationService.error('Error al eliminar la tarea');
+          }
+        });
+      }
+    });
   }
-
-  // Método privado para cargar y filtrar datos
   private loadData(): void {
-    const serverTasks$ = this.taskService.list().pipe(
-      map(tasks => tasks.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      )),
-      startWith([] as Task[]),
-      shareReplay(1)
-    );
-
-    // Combinar tareas del servidor con actualizaciones locales
-    this.tasks$ = combineLatest([
-      serverTasks$,
-      this.localUpdates$
-    ]).pipe(
-      map(([serverTasks, localTasks]) => {
-        // Filtrar tareas locales que ya no existen en el servidor (por si se borraron)
-        const validLocalTasks = localTasks.filter(localTask =>
-          !serverTasks.some(serverTask => serverTask.id === localTask.id)
-        );
-        return [...validLocalTasks, ...serverTasks].sort((a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      }),
-      shareReplay(1)
-    );
-
     this.filteredTasks$ = combineLatest([
-      this.tasks$,
+      this.taskService.list(),
       this.q$.pipe(
         map(s => s.trim().toLowerCase()),
         debounceTime(300),
@@ -184,6 +153,6 @@ export class TaskListComponent implements OnInit {
         )
       )
     );
+    this.filteredTasks$.subscribe(value => this.taksList = value)
   }
-
 }

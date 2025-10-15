@@ -4,11 +4,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatIcon } from "@angular/material/icon";
 import { RouterLink } from "../../../../node_modules/@angular/router/index";
+import { HeaderComponent } from "../../shared/components/header/header.component";
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, MatSlideToggleModule, MatIcon],
+  imports: [RouterOutlet, MatSlideToggleModule, HeaderComponent],
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
 })
@@ -20,8 +21,4 @@ export class ShellComponent {
   //   overlayEl.classList.toggle('dark-theme', on);
   // }
 
-  logout() {
-    // lógica logout: limpiar estado, redirigir a login, etc.
-    console.log('Logout clicked');
-  }
 }

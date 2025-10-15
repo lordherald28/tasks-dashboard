@@ -1,0 +1,172 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 440px;
+}
+
+.error-message {
+    color: #e53e3e;
+    // background-color: #fed7d7;
+    // border: 1px solid #f56565;
+    padding: 12px 16px;
+    // border-radius: 8px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.login-card {
+    width: 100%;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 0;
+
+    .logo-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .app-logo {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .app-title {
+        font-family: 'Montserrat Alternates', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin: 0;
+    }
+
+    .login-subtitle {
+        font-family: 'Montserrat Alternates', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: #666;
+        margin: 0;
+    }
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .full-width {
+        width: 100%;
+    }
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+
+    .forgot-link {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.login-button {
+    height: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+
+    &:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .loading-spinner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+}
+
+.login-actions {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-top: 24px;
+
+    .register-link {
+        color: #666;
+        font-size: 14px;
+        margin: 0;
+
+        .register-text {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 480px) {
+    .login-background {
+        padding: 16px;
+    }
+
+    .login-card {
+        padding: 32px 24px;
+    }
+
+    .app-title {
+        font-size: 24px !important;
+    }
+
+    .login-subtitle {
+        font-size: 18px !important;
+    }
+
+    .remember-forgot {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}

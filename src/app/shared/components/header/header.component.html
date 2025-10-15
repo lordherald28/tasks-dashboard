@@ -1,0 +1,29 @@
+<header class="toolbar">
+    <div class="app-logo-text">
+        <img src="img/logo1.png" alt="Logo" class="logo circle-img " routerLink="/tasks"/>
+        <span class="logo-text" routerLink="/tasks">Tasks</span>
+        <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
+            <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
+                class="avatar-image circle-img ">
+        </div>
+    </div>
+    <mat-menu #userMenu="matMenu" class="user-menu">
+        <button mat-menu-item>
+            <mat-icon>settings_b_roll</mat-icon>
+            <span>Configuración</span>
+        </button>
+        <button mat-menu-item routerLink="/tasks">
+            <mat-icon>list_alt_check</mat-icon>
+            <span>Tareas</span>
+        </button>
+        <button mat-menu-item routerLink="/dashboard">
+            <mat-icon>equalizer</mat-icon>
+            <span>Métricas</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+        </button>
+    </mat-menu>
+    <span class="spacer"></span>
+</header>
