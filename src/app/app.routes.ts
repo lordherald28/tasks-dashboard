@@ -36,7 +36,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' },
-    // Ruta 404 - debe ser la última
+    // Ruta 404
     {
         path: '**',
         component: NotFoundComponent

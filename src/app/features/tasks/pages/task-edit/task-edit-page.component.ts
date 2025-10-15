@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskFormComponent } from '../../../../shared/components/task-form/task-form.component';
 import { Task } from '../../../../core/models/task';
 import { TaskService } from '../../../../core/services/task.service';

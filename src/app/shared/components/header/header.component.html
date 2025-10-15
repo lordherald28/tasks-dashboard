@@ -3,7 +3,7 @@
         <img src="img/logo1.png" alt="Logo" class="logo circle-img " routerLink="/dashboard" />
         <span class="logo-text" routerLink="/dashboard">Tasks</span>
         <!-- Menu/Acceso directo -->
-        <div class="menu-button-row">
+        <div class="menu-button-row" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)">
             <div class="menu-flex-container">
                 <div class="menu-button-container">
                     <button mat-button class="" matTooltip="Gestionar Tareas" routerLink="/tasks">

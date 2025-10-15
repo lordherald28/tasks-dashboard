@@ -1,10 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { NotificationService, Notification } from './notification.service';
+import { NotificationService } from './notification.service';
 import { LoginResponse, User, UserWithPassword } from '../models/auth';
-import { BIN_ID, JSONBIN_BASE_URL, MASTER_KEY } from '../utils/const';
+import { BIN_ID, MASTER_KEY } from '../utils/const';
+import { JSONBIN_BASE_URL } from '../config/api';
+import { Notification } from '../models/notification';
 
 @Injectable({
     providedIn: 'root'

@@ -3,8 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { API_URL } from './core/config/api';
-import { API_LOCAL } from './core/utils/const';
+import { API_LOCAL, API_URL } from './core/config/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -10,7 +10,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
-import { NotificationService } from '../../../core/services/notification.service';
 import { LoginResponse } from '../../../core/models/auth';
 
 @Component({
@@ -49,7 +48,6 @@ export class LoginComponent {
     });
   }
 
-  // En el método onSubmit del LoginComponent
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;

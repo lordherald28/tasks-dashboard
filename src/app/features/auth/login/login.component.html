@@ -3,8 +3,6 @@
         <mat-card class="login-card">
             <mat-card-header class="login-header">
                 <div class="logo-section">
-                    <!-- <mat-icon class="app-logo" color="primary">task_alt</mat-icon> -->
-                    <!-- <h1 class="app-title">Tasks Dashboard</h1> -->
                     <img src="img/logo1.png" alt="Tasks Dashboard Logo" class="app-logo">
                 </div>
                 <h2 class="login-subtitle">Iniciar Sesión</h2>
@@ -39,16 +37,8 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <div class="remember-forgot">
-                        <mat-checkbox formControlName="rememberMe" color="primary">
-                            Recordar mis datos
-                        </mat-checkbox>
-                        <a class="forgot-link" routerLink="/forgot-password">
-                            ¿Olvidaste tu contraseña?
-                        </a>
-                    </div>
-
-                    <button mat-raised-button color="primary" type="submit" class="login-button" [disabled]="isLoading">
+                    <button mat-raised-button color="secundary" type="submit" class="login-button"
+                        [disabled]="isLoading">
                         <span *ngIf="!isLoading">Iniciar Sesión</span>
                         <div *ngIf="isLoading" class="loading-spinner">
                             <mat-spinner diameter="20"></mat-spinner>
