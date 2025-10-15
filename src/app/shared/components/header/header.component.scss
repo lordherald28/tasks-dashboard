@@ -27,7 +27,7 @@
 
     .logo {
         box-shadow: none;
-        object-fit:contain !important;
+        object-fit: contain !important;
         margin-right: 12px;
         cursor: pointer;
     }
@@ -85,4 +85,41 @@
     @media (max-width: 768px) {
         display: block;
     }
+}
+
+section {
+    display: table;
+}
+
+
+
+.menu-button-row {
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+.menu-button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+}
+
+.menu-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.menu-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.no-shadow {
+    box-shadow: none !important;
 }
