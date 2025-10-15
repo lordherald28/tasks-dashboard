@@ -6,9 +6,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ImageNotFoundPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): string {
-    console.log(value)
-    return 'img/default-avatar.jpg';
-  }
+  transform(value: string | null | undefined): string {
+    // Si no hay valor, está vacío, o es inválido
+    if (!value || value.trim() === '' || value === 'null' || value === 'undefined') {
+      return 'img/default-avatar.jpg';
+    }
 
+    // Para cualquier otro caso, devolvemos el valor original
+    return value;
+  }
 }
