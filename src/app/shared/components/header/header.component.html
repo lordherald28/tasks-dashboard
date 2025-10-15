@@ -1,7 +1,7 @@
 <header class="toolbar">
     <div class="app-logo-text">
-        <img src="img/logo1.png" alt="Logo" class="logo circle-img " routerLink="/tasks"/>
-        <span class="logo-text" routerLink="/tasks">Tasks</span>
+        <img src="img/logo1.png" alt="Logo" class="logo circle-img " routerLink="/dashboard"/>
+        <span class="logo-text" routerLink="/dashboard">Tasks</span>
         <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
             <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
                 class="avatar-image circle-img" (error)="handleImageError($event)">

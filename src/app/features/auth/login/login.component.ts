@@ -61,7 +61,7 @@ export class LoginComponent {
         next: (response: LoginResponse) => {
           this.isLoading = false;
           if (response.success) {
-            this.router.navigate(['/tasks']);
+            this.router.navigate(['/dashboard']);
           } else {
             this.error = response.message || 'Error en el login';
           }
