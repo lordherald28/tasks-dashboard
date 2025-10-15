@@ -41,7 +41,6 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,7 +53,7 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      this.error = ''; // Limpiar error anterior
+      this.error = '';
 
       const { email, password } = this.loginForm.value;
 
@@ -70,7 +69,6 @@ export class LoginComponent {
         error: (error: any) => {
           this.isLoading = false;
           this.error = 'Error de conexión con el servidor';
-          // this.notificationService.error(this.error);
           console.error('Login error:', error);
         }
       });
