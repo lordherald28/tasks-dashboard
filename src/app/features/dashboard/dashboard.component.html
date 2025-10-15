@@ -1,0 +1,157 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>Métricas</h2>
+    <p>Resumen general de tus tareas y productividad</p>
+  </div>
+
+  <!-- Grid de métricas principales -->
+  <div class="metrics-grid">
+    <!-- Tarjeta de Total Tareas -->
+    <div class="metric-card primary">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ totalTasks }}</span>
+          <span class="metric-label">Totales</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Tareas Completadas -->
+    <div class="metric-card success">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ completedTasks }}</span>
+          <span class="metric-label">Completadas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Tareas Pendientes -->
+    <div class="metric-card warning">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ pendingTasks }}</span>
+          <span class="metric-label">Pendientes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Tasa de Completado -->
+    <div class="metric-card info">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ completionRate }}%</span>
+          <span class="metric-label">% Completadas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segunda fila de métricas -->
+  <div class="metrics-grid">
+    <!-- Productividad Semanal -->
+    <div class="metric-card accent">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>speed</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ productivityScore }}%</span>
+          <span class="metric-label">Productivity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tareas Esta Semana -->
+    <div class="metric-card secondary">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ weeklyTasks }}</span>
+          <span class="metric-label">Esta Semana</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tiempo Promedio -->
+    <div class="metric-card tertiary">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ avgCompletionTime }}</span>
+          <span class="metric-label">Tiempo Medio</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tareas Urgentes -->
+    <div class="metric-card danger">
+      <div class="card-content">
+        <div class="metric-icon">
+          <mat-icon>priority_high</mat-icon>
+        </div>
+        <div class="metric-data">
+          <span class="metric-value">{{ urgentTasks }}</span>
+          <span class="metric-label">Urgentes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid para gráficos -->
+  <div class="charts-section">
+    <h3>Analytics</h3>
+    <div class="charts-grid">
+      <!-- Gráfico de distribución -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h4>Distribución</h4>
+          <mat-icon>pie_chart</mat-icon>
+        </div>
+        <div class="chart-content">
+          <ngx-charts-advanced-pie-chart
+            [results]="taskStatusData"
+            [label]="'Tareas'"
+            [animations]="true"
+            [scheme]="colorScheme">
+          </ngx-charts-advanced-pie-chart>
+        </div>
+      </div>
+
+      <!-- Gráfico de progreso semanal -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h4>Progreso Semanal</h4>
+          <mat-icon>bar_chart</mat-icon>
+        </div>
+        <div class="chart-content">
+          <ngx-charts-bar-vertical
+            [results]="weeklyProgressData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [scheme]="colorScheme"
+            [animations]="true">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

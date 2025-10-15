@@ -12,13 +12,14 @@
             <mat-icon>settings_b_roll</mat-icon>
             <span>Configuración</span>
         </button>
+        <button mat-menu-item routerLink="/dashboard">
+            <mat-icon>equalizer</mat-icon>
+            <span>Métricas</span>
+        </button>
         <button mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Cerrar sesión</span>
         </button>
     </mat-menu>
     <span class="spacer"></span>
-    <!-- <button mat-button class="btn-logout" (click)="logout()" *ngIf="(isLoggedIn$ | async)" matTooltip="Cerrar sesión">
-        <mat-icon>exit_to_app</mat-icon>
-    </button> -->
 </header>

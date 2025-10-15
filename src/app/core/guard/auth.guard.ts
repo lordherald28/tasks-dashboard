@@ -6,9 +6,6 @@ import { User } from '../models/auth';
 import { NotificationService } from '../services/notification.service';
 
 export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    console.log('route: ', route);
-    console.log('state: ', state);
-
 
     const authService: AuthService = inject(AuthService);
     const router: Router = inject(Router);
@@ -18,7 +15,6 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
 
     // Si no está autenticado, redirigir al login
     if (!authService.isAuthenticated) {
-        console.log('Usuario no autenticado, redirigiendo a login...');
         router.navigate(['/login']);
         return false;
     }
@@ -34,9 +30,7 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
     const hasRequiredRole: boolean = requiredRoles.includes(currentUser?.role || '');
 
     if (!hasRequiredRole) {
-        console.log('Usuario no tiene permisos para esta ruta');
         notificationService.warning('Lo siento, no tiene permisos para esta ruta')
-        // Redirigir a tasks en lugar de acceso denegado (menos "escandaloso")
         router.navigate(['/tasks']);
         return false;
     }

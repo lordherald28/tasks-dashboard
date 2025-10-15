@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
 import { publicGuard } from './core/guard/public.guard';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,12 @@ export const routes: Routes = [
         title: 'Editar Tarea',
         canActivate: [AuthGuard],
         data: { roles: ['admin'] }
+    },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard.component')
+            .then(c => c.DashboardComponent)
+        // canActivate: [publicGuard] 
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
