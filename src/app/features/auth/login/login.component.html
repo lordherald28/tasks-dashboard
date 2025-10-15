@@ -1,0 +1,72 @@
+<div class="login-container">
+    <div class="login-card-wrapper">
+        <mat-card class="login-card">
+            <mat-card-header class="login-header">
+                <div class="logo-section">
+                    <!-- <mat-icon class="app-logo" color="primary">task_alt</mat-icon> -->
+                    <!-- <h1 class="app-title">Tasks Dashboard</h1> -->
+                    <img src="img/logo1.png" alt="Tasks Dashboard Logo" class="app-logo">
+                </div>
+                <h2 class="login-subtitle">Iniciar Sesión</h2>
+            </mat-card-header>
+
+            <mat-card-content>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="email" placeholder="tu@email.com">
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="email?.hasError('required')">
+                            El email es requerido
+                        </mat-error>
+                        <mat-error *ngIf="email?.hasError('email')">
+                            Por favor ingresa un email válido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+                            placeholder="Tu contraseña">
+                        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+                            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="password?.hasError('required')">
+                            La contraseña es requerida
+                        </mat-error>
+                        <mat-error *ngIf="password?.hasError('minlength')">
+                            La contraseña debe tener al menos 6 caracteres
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="remember-forgot">
+                        <mat-checkbox formControlName="rememberMe" color="primary">
+                            Recordar mis datos
+                        </mat-checkbox>
+                        <a class="forgot-link" routerLink="/forgot-password">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+
+                    <button mat-raised-button color="primary" type="submit" class="login-button" [disabled]="isLoading">
+                        <span *ngIf="!isLoading">Iniciar Sesión</span>
+                        <div *ngIf="isLoading" class="loading-spinner">
+                            <mat-spinner diameter="20"></mat-spinner>
+                            <span>Iniciando sesión...</span>
+                        </div>
+                    </button>
+                </form>
+            </mat-card-content>
+
+            <mat-card-actions class="login-actions">
+                <p class="register-link">
+                    ¿No tienes una cuenta?
+                    <a routerLink="/register" class="register-text">Regístrate</a>
+                </p>
+            </mat-card-actions>
+            <div *ngIf="error" class="error-message">
+                {{ error }}
+            </div>
+        </mat-card>
+    </div>
+</div>

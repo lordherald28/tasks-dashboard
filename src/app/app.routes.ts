@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
+        path: 'login',
+        loadComponent: () => import('./features/auth/login/login.component')
+            .then(c => c.LoginComponent),
+        title: 'Login'
+    },
+    {
         path: 'tasks',
         loadComponent: () => import('./features/tasks/pages/task-list/task-list.component')
             .then(c => c.TaskListComponent),
@@ -13,5 +19,5 @@ export const routes: Routes = [
             .then(c => c.TaskEditPageComponent),
         title: 'Editar Tarea'
     },
-    { path: '', redirectTo: '/tasks', pathMatch: 'full' }
+    { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
