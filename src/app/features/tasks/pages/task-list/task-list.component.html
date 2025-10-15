@@ -11,6 +11,8 @@
     [showActions]="true"
     [showPagination]="true"
     [readonly]="false"
+    [isLoadingData]="isLoadingData"
+    [loadingMessage]="'Cargando tareas...'"
     [permission]="(currentUser$ | async)?.role !== 'admin'"
     searchPlaceholder="Buscar por título o descripción..."
     noDataMessage="No se encontraron tareas"

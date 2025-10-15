@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map
 import { TaskService } from '../../../../core/services/task.service';
 import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ReusableTableComponent, TableColumn } from "../../../../shared/components/table/reusable-table.component";
+import { ReusableTableComponent } from "../../../../shared/components/table/reusable-table.component";
 
 
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import { ConfirmationDialogComponent } from '../../../../shared/components/dialo
 import { ConfirmationDialogData } from '../../../../core/models/modals';
 import { AuthService } from '../../../../core/services/auth.service';
 import { User } from '../../../../core/models/auth';
+import { TableColumn } from '../../../../core/models/table';
 
 @Component({
   selector: 'app-task-list',
@@ -34,6 +35,7 @@ export class TaskListComponent implements OnInit {
   private status$ = new BehaviorSubject<string>('');
   public filteredTasks$!: Observable<Task[]>;
   public currentUser$: Observable<User> = new Observable<User>();
+  public isLoadingData: boolean = false;
 
   public taksList = new Array<Task>();
 
@@ -135,6 +137,7 @@ export class TaskListComponent implements OnInit {
     });
   }
   private loadData(): void {
+    this.isLoadingData = true;
     this.filteredTasks$ = combineLatest([
       this.taskService.list(),
       this.q$.pipe(
@@ -153,6 +156,6 @@ export class TaskListComponent implements OnInit {
         )
       )
     );
-    this.filteredTasks$.subscribe(value => this.taksList = value)
+    this.filteredTasks$.subscribe(value => { this.taksList = value; this.isLoadingData = false; })
   }
 }
