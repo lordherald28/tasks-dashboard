@@ -5,7 +5,7 @@
     </div>
         <!-- Avatar del usuario centrado -->
     <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)">
-        <img [src]="(currentUser$ | async)?.avatar || 'assets/default-avatar.png'" 
+        <img [src]="(currentUser$ | async)?.avatar || 'img/default-avatar.png'" 
              [alt]="(currentUser$ | async)?.name"
              class="avatar-image">
     </div>

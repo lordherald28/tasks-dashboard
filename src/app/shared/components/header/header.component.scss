@@ -28,10 +28,10 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-
+    transform: translateY(30%);
     .avatar-image {
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
         border: 3px solid white;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
