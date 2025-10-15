@@ -53,39 +53,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.subscriptions.unsubscribe();
     }
 
-    // // Precargar imagen para verificar si existe
-    // preloadImage(url: string): void {
-    //     const img = new Image();
-    //     img.onload = () => {
-    //         console.log('Avatar existe y se puede cargar:', url);
-    //         this.avatarError = false;
-    //     };
-    //     img.onerror = () => {
-    //         console.warn('Avatar no encontrado en el servidor:', url);
-    //         this.avatarError = true;
-    //     };
-    //     img.src = url;
-    // }
+    // Manejo seguro de errores de imagen
+    handleImageError(event: Event): any {
+        // Verificar que el target existe y es una imagen
+        if (!event.target || !(event.target instanceof HTMLImageElement)) {
+            return;
+        }
 
-    // Manejar error de carga de imagen
-    // handleImageError(event: Event): void {
-    //     const img = event.target as HTMLImageElement;
-    //     console.warn('Error cargando avatar, usando imagen por defecto');
-    //     this.avatarError = true;
+        const img = event.target as HTMLImageElement;
+        console.warn('Error cargando avatar, usando imagen por defecto');
 
-    //     // Cambiar a avatar por defecto
-    //     img.src = 'img/default-avatar.jpg';
+        // Cambiar a avatar por defecto de forma segura
+        img.src = 'img/default-avatar.jpg';
 
-    //     // Prevenir bucles de error
-    //     img.onerror = null;
-    // }
-
-    // // Obtener la URL correcta del avatar
-    // getAvatarUrl(): string {
-    //     if (this.avatarError || !this.currentAvatarUrl) {
-    //         return 'img/default-avatar.jpg';
-    //     }
-    //     return this.currentAvatarUrl;
-    // }
+        // Prevenir bucles de error eliminando el event handler
+        img.onerror = null;
+    }
 
 }

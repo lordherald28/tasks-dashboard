@@ -4,7 +4,7 @@
         <span class="logo-text" routerLink="/tasks">Tasks</span>
         <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
             <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
-                class="avatar-image circle-img" (error)="$event.target.src = 'img/default-avatar.jpg'">
+                class="avatar-image circle-img" (error)="handleImageError($event)">
         </div>
     </div>
     <mat-menu #userMenu="matMenu" class="user-menu">
