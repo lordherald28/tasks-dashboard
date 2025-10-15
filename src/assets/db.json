@@ -375,14 +375,6 @@
       "status": "pending",
       "estimatedDuration": 30,
       "createdAt": "2025-10-14T12:28:25.310Z"
-    },
-    {
-      "id": "task_1760494642055_3h333vyes",
-      "title": "VOltus 555",
-      "description": "porque raonn",
-      "status": "pending",
-      "estimatedDuration": 30,
-      "createdAt": "2025-10-15T02:17:22.055Z"
     }
   ]
 }

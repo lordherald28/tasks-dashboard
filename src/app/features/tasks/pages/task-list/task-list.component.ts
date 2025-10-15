@@ -6,10 +6,13 @@ import { Task } from '../../../../core/models/task';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReusableTableComponent, TableColumn } from "../../../../shared/components/table/reusable-table.component";
 
+
 import { MatDialog } from '@angular/material/dialog';
 import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { ConfirmationDialogComponent } from '../../../../shared/components/dialog/confirmation-dialog.component';
+import { ConfirmationDialogData } from '../../../../core/models/modals';
 
 @Component({
   selector: 'app-task-list',
@@ -101,19 +104,31 @@ export class TaskListComponent implements OnInit {
   }
 
   remove(task: Task): void {
-    if (confirm(`¿Estás seguro de eliminar "${task.title}"?`)) {
-      this.taskService.remove(task.id).subscribe({
-        next: () => {
-          this.loadData(); // Recarga simple después de eliminar
-          this.notificationService.success('Tarea eliminada');
-        },
-        error: () => {
-          this.notificationService.error('Error al eliminar la tarea');
-        }
-      });
-    }
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Eliminar Tarea',
+        message: `¿Estás seguro de que quieres eliminar la tarea "${task.title}"? Esta acción no se puede deshacer.`,
+        confirmText: 'Eliminar',
+        cancelText: 'Cancelar',
+        type: 'danger'
+      } as ConfirmationDialogData
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.remove(task.id).subscribe({
+          next: () => {
+            this.loadData();
+            this.notificationService.success('Tarea eliminada');
+          },
+          error: () => {
+            this.notificationService.error('Error al eliminar la tarea');
+          }
+        });
+      }
+    });
+  }
   private loadData(): void {
     this.filteredTasks$ = combineLatest([
       this.taskService.list(),
