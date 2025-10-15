@@ -2,23 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../core/services/task.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: true,
   imports: [
-    CommonModule, 
-    NgxChartsModule, 
-    MatIconModule
+    CommonModule,
+    NgxChartsModule,
+    MatCardModule,
+    MatIconModule,
+    MatGridListModule
   ],
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   taskStatusData: any[] = [];
   weeklyProgressData: any[] = [];
-  
+
   // Métricas principales
   totalTasks: number = 0;
   completedTasks: number = 0;
@@ -46,13 +50,13 @@ export class DashboardComponent implements OnInit {
       this.totalTasks = tasks.length;
       this.completedTasks = tasks.filter(t => t.status === 'completed').length;
       this.pendingTasks = tasks.filter(t => t.status === 'pending').length;
-      this.completionRate = this.totalTasks > 0 ? 
+      this.completionRate = this.totalTasks > 0 ?
         Math.round((this.completedTasks / this.totalTasks) * 100) : 0;
-      
+
       // Métricas adicionales inventadas
       this.productivityScore = Math.min(100, Math.round(this.completionRate * 1.2));
-      this.weeklyTasks = Math.floor(this.totalTasks * 0.3); // 30% de las tareas esta semana
-      this.urgentTasks = Math.floor(this.pendingTasks * 0.4); // 40% de pendientes son urgentes
+      this.weeklyTasks = Math.floor(this.totalTasks * 0.3);
+      this.urgentTasks = Math.floor(this.pendingTasks * 0.4);
 
       // Datos para gráficos
       this.taskStatusData = [

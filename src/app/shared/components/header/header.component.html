@@ -1,7 +1,7 @@
 <header class="toolbar">
-    <div class="app-logo-text" routerLink="/tasks">
-        <img src="img/logo1.png" alt="Logo" class="logo" />
-        <span class="logo-text">Tasks</span>
+    <div class="app-logo-text">
+        <img src="img/logo1.png" alt="Logo" class="logo" routerLink="/tasks" />
+        <span class="logo-text" routerLink="/tasks">Tasks</span>
         <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
             <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
                 class="avatar-image">
@@ -11,6 +11,10 @@
         <button mat-menu-item>
             <mat-icon>settings_b_roll</mat-icon>
             <span>Configuración</span>
+        </button>
+        <button mat-menu-item routerLink="/tasks">
+            <mat-icon>list_alt_check</mat-icon>
+            <span>Tareas</span>
         </button>
         <button mat-menu-item routerLink="/dashboard">
             <mat-icon>equalizer</mat-icon>
