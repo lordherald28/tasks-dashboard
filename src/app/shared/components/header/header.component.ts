@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AuthService } from "../../../core/services/auth.service";
 import { Router, RouterModule } from "@angular/router";
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { Observable, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { User } from "../../../core/models/auth";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from '@angular/material/menu';
 import { ImageNotFoundPipe } from "../../pipes/image-not-found.pipe";
+import { MatButtonModule } from "@angular/material/button";
 
 
 @Component({
@@ -15,7 +16,7 @@ import { ImageNotFoundPipe } from "../../pipes/image-not-found.pipe";
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
-    imports: [MatIcon, CommonModule, RouterModule, MatTooltipModule, MatMenuModule, ImageNotFoundPipe]
+    imports: [MatIcon, CommonModule, RouterModule, MatTooltipModule, MatMenuModule, ImageNotFoundPipe, MatButtonModule, MatIconModule]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     public isLoggedIn$: Observable<any> = new Observable<any>();
