@@ -49,6 +49,8 @@ export class ReusableTableComponent implements OnInit, OnChanges {
   @Input() pageSizeOptions: number[] = [5, 10, 25];
   @Input() pageSize: number = 5;
 
+  @Input() permission: boolean = false;
+  
   @Output() searchChange = new EventEmitter<string>();
   @Output() statusChange = new EventEmitter<string>();
   @Output() onPageChange = new EventEmitter<PageEvent>();

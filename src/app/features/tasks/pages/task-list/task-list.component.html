@@ -1,5 +1,3 @@
-  <!-- [dataSource]="(filteredTasks$ | async) ?? []" -->
-<!--  -->
 <app-reusable-table
   [dataSource]="taksList"
   [columns]="tableColumns"
@@ -12,6 +10,7 @@
   [showActions]="true"
   [showPagination]="true"
   [readonly]="false"
+  [permission]="(currentUser$ | async)?.role !== 'admin'"
   searchPlaceholder="Buscar por título o descripción..."
   noDataMessage="No se encontraron tareas"
   (searchChange)="setQuery($event)"

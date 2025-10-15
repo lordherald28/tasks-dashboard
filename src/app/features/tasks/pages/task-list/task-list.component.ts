@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ConfirmationDialogComponent } from '../../../../shared/components/dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from '../../../../core/models/modals';
+import { AuthService } from '../../../../core/services/auth.service';
+import { User } from '../../../../core/models/auth';
 
 @Component({
   selector: 'app-task-list',
@@ -31,6 +33,7 @@ export class TaskListComponent implements OnInit {
   private q$ = new BehaviorSubject<string>('');
   private status$ = new BehaviorSubject<string>('');
   public filteredTasks$!: Observable<Task[]>;
+  public currentUser$: Observable<User> = new Observable<User>();
 
   public taksList = new Array<Task>();
 
@@ -51,10 +54,12 @@ export class TaskListComponent implements OnInit {
     private readonly taskService: TaskService,
     private dialog: MatDialog,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser$ = this.authService.currentUser$ as Observable<User>;
     this.loadData();
   }
 
