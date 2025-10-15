@@ -3,32 +3,24 @@ import { Observable, of, throwError } from 'rxjs';
 import { Task } from '../models/task';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class LocalStorageService {
-    private storageKey: string = 'tasks-backup';
+export class OfflineBackupService {
+  private storageKey = 'tasks-backup';
 
-    public getTasks(): Observable<Task[]> {
-        try {
-            const data: any = localStorage.getItem(this.storageKey);
-            const tasks: any = data ? JSON.parse(data) : [];
-            return of(tasks);
-        } catch (error) {
-            return throwError(() => new Error('Error loading tasks from localStorage'));
-        }
-    }
+  // Solo se usa cuando el servidor falla
+  getBackup(): Task[] {
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : [];
+  }
 
-    public saveTasks(tasks: Task[]): Observable<void> {
-        try {
-            localStorage.setItem(this.storageKey, JSON.stringify(tasks));
-            return of(void 0);
-        } catch (error) {
-            return throwError(() => new Error('Error saving tasks to localStorage'));
-        }
-    }
+  // Se actualiza cuando el servidor responde exitosamente
+  updateBackup(tasks: Task[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(tasks));
+  }
 
-    // Sincronizar cuando el servidor responda exitosamente
-    public syncWithServer(tasks: Task[]): void {
-        this.saveTasks(tasks).subscribe();
-    }
+  // Limpiar cuando ya no se necesita
+  clearBackup(): void {
+    localStorage.removeItem(this.storageKey);
+  }
 }

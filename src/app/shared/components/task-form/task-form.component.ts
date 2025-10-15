@@ -62,7 +62,7 @@ export class TaskFormComponent implements OnChanges {
     if (this.taskForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
-      const formData = this.taskForm.value;
+      const formData: any = this.taskForm.value;
       const taskData: Task = {
         id: this.task?.id || this.generateId(),
         ...formData,

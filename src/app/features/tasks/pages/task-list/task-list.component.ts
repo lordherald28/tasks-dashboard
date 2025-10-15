@@ -9,7 +9,6 @@ import { ReusableTableComponent, TableColumn } from "../../../../shared/componen
 import { MatDialog } from '@angular/material/dialog';
 import { TaskModalComponent } from '../../../../shared/components/task-modal/task-modal.component';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
@@ -18,23 +17,19 @@ import { NotificationService } from '../../../../core/services/notification.serv
   imports: [
     CommonModule,
     MatTooltipModule,
-    MatSnackBarModule,
     ReusableTableComponent
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TaskListComponent implements OnInit {
-
-  // Observables para filtros
+  // Observables simples
   private q$ = new BehaviorSubject<string>('');
   private status$ = new BehaviorSubject<string>('');
-  private tasks$!: Observable<Task[]>;
-  private localUpdates$ = new BehaviorSubject<Task[]>([]);
-
-  // Datos filtrados
   public filteredTasks$!: Observable<Task[]>;
+
+  public taksList = new Array<Task>();
 
   // Configuración de la tabla
   public tableColumns: TableColumn[] = [
@@ -44,7 +39,7 @@ export class TaskListComponent implements OnInit {
       key: 'createdAt',
       header: 'Creada',
       type: 'text',
-      pipe: 'relativeTime' // Nueva propiedad para identificar el pipe
+      pipe: 'relativeTime'
     },
     { key: 'status', header: 'Estado', type: 'badge' }
   ];
@@ -54,19 +49,18 @@ export class TaskListComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private notificationService: NotificationService
-
   ) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
+  // Métodos simples
   onAddClick(): void {
     this.openCreateModal();
   }
 
   onEditClick(task: Task): void {
-    // Navegar a la página de edición
     this.router.navigate(['/tasks', task.id, 'edit']);
   }
 
@@ -74,28 +68,23 @@ export class TaskListComponent implements OnInit {
     this.remove(task);
   }
 
-  // Método para abrir modal de creación
   openCreateModal(): void {
     const dialogRef = this.dialog.open(TaskModalComponent, {
       width: '90vw',
       maxWidth: '600px',
-      data: {},
-      disableClose: false
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe((result: Task) => {
       if (result) {
         this.taskService.create(result).subscribe({
-          next: (newTask) => {
-            // Agregar la nueva tarea tanto localmente como recargando
-            this.addTaskLocally(newTask);
-            this.notificationService.success('Tarea creada exitosamente');
+          next: (value: Task) => {
+            console.log('value: ', value)
 
+            this.loadData(); // Recarga simple
+            this.notificationService.success('Tarea creada exitosamente');
           },
-          error: (error: any) => {
-            // En caso de error, recargar toda la lista
-            this.loadData();
-            console.error('Error creating task:', error);
+          error: () => {
             this.notificationService.error('Error al crear la tarea');
           }
         });
@@ -103,12 +92,6 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  private addTaskLocally(newTask: Task): void {
-    // Agregar la tarea a las actualizaciones locales
-    const currentLocalTasks = this.localUpdates$.value;
-    this.localUpdates$.next([newTask, ...currentLocalTasks]);
-  }
-  // Métodos públicos para manejar eventos del componente reutilizable
   setQuery(searchTerm: string): void {
     this.q$.next(searchTerm);
   }
@@ -118,56 +101,22 @@ export class TaskListComponent implements OnInit {
   }
 
   remove(task: Task): void {
-    if (confirm(`¿Estás seguro de que quieres eliminar la tarea "${task.title}"?`)) {
+    if (confirm(`¿Estás seguro de eliminar "${task.title}"?`)) {
       this.taskService.remove(task.id).subscribe({
         next: () => {
-          this.removeTaskLocally(task.id);
+          this.loadData(); // Recarga simple después de eliminar
           this.notificationService.success('Tarea eliminada');
         },
-        error: (error) => {
-          console.error('Error deleting task:', error);
+        error: () => {
           this.notificationService.error('Error al eliminar la tarea');
         }
       });
     }
   }
 
-  private removeTaskLocally(taskId: string): void {
-    // const currentLocalTasks = this.localUpdates$.value;
-    // this.localUpdates$.next([newTask, ...currentLocalTasks]);
-    const currentLocalTasks = this.localUpdates$.value;
-    this.localUpdates$.next(currentLocalTasks.filter((task: Task) => task.id !== taskId));
-  }
-
-  // Método privado para cargar y filtrar datos
   private loadData(): void {
-    const serverTasks$ = this.taskService.list().pipe(
-      map(tasks => tasks.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      )),
-      startWith([] as Task[]),
-      shareReplay(1)
-    );
-
-    // Combinar tareas del servidor con actualizaciones locales
-    this.tasks$ = combineLatest([
-      serverTasks$,
-      this.localUpdates$
-    ]).pipe(
-      map(([serverTasks, localTasks]) => {
-        // Filtrar tareas locales que ya no existen en el servidor (por si se borraron)
-        const validLocalTasks = localTasks.filter(localTask =>
-          !serverTasks.some(serverTask => serverTask.id === localTask.id)
-        );
-        return [...validLocalTasks, ...serverTasks].sort((a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      }),
-      shareReplay(1)
-    );
-
     this.filteredTasks$ = combineLatest([
-      this.tasks$,
+      this.taskService.list(),
       this.q$.pipe(
         map(s => s.trim().toLowerCase()),
         debounceTime(300),
@@ -184,6 +133,6 @@ export class TaskListComponent implements OnInit {
         )
       )
     );
+    this.filteredTasks$.subscribe(value => this.taksList = value)
   }
-
 }

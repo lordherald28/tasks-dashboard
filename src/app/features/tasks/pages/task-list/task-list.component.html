@@ -1,6 +1,7 @@
-
+  <!-- [dataSource]="(filteredTasks$ | async) ?? []" -->
+<!--  -->
 <app-reusable-table
-  [dataSource]="(filteredTasks$ | async) ?? []"
+  [dataSource]="taksList"
   [columns]="tableColumns"
   [pageSizeOptions]="[1, 5, 10, 25]"
   [pageSize]="5"
