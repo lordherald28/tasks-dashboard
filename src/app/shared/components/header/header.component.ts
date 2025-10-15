@@ -45,7 +45,6 @@ export class HeaderComponent implements OnInit {
         }
 
         const img = event.target as HTMLImageElement;
-        console.warn('Error cargando avatar, usando imagen por defecto');
 
         // Cambiar a avatar por defecto de forma segura
         img.src = 'img/default-avatar.jpg';

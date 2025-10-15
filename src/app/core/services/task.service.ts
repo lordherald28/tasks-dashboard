@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../config/api';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -25,7 +25,6 @@ export class TaskService {
         const tasks = JSON.parse(stored);
         this.cache$.next(tasks);
       } catch (e) {
-        console.warn('Error loading tasks from localStorage:', e);
         this.cache$.next([]);
       }
     }
@@ -45,7 +44,6 @@ export class TaskService {
       tap(tasks => this.saveToStorage(tasks)), // Guardar en localStorage
       catchError(() => {
         // Si la API falla, usar datos de localStorage
-        console.warn('Fallo al listar tareas desde la API, usar localStorage');
         return of(this.cache$.value);
       })
     );
@@ -72,14 +70,13 @@ export class TaskService {
       createdAt: new Date().toISOString()
     };
 
-    // Actualizar localStorage inmediatamente
+
     const updatedTasks = [...this.cache$.value, newTask];
     this.saveToStorage(updatedTasks);
 
-    // Intentar con la API, pero si falla ya tenemos el dato en localStorage
+
     return this.http.post<Task>(this.base, newTask).pipe(
       catchError(() => {
-        console.warn('Fallo al guardar, guardar datos en localStorage');
         return of(newTask);
       })
     );
@@ -97,7 +94,6 @@ export class TaskService {
     // Intentar con la API
     return this.http.put<Task>(`${this.base}/${id}`, body).pipe(
       catchError(() => {
-        console.warn('Fallo al actualizar, usar localStorage');
         return of(updatedTask);
       })
     );
