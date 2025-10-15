@@ -1,4 +1,5 @@
-<app-reusable-table
+<div class="app-task-list-container">
+  <app-reusable-table
   [dataSource]="taksList"
   [columns]="tableColumns"
   [pageSizeOptions]="[1, 5, 10, 25]"
@@ -19,3 +20,4 @@
   (editClick)="onEditClick($event)"
   (deleteClick)="onDeleteClick($event)">
 </app-reusable-table>
+</div>

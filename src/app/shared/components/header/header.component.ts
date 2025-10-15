@@ -5,6 +5,8 @@ import { MatIcon } from "@angular/material/icon";
 import { Observable } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { User } from "../../../core/models/auth";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { User } from "../../../core/models/auth";
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
-    imports: [MatIcon, CommonModule, RouterModule]
+    imports: [MatIcon, CommonModule, RouterModule, MatTooltipModule, MatMenuModule]
 })
 export class HeaderComponent implements OnInit {
     public isLoggedIn$: Observable<any> = new Observable<any>();

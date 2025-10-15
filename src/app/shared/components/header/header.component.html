@@ -2,15 +2,23 @@
     <div class="app-logo-text" routerLink="/tasks">
         <img src="img/logo1.png" alt="Logo" class="logo" />
         <span class="logo-text">Tasks</span>
+        <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
+            <img [src]="(currentUser$ | async)?.avatar || 'img/default-avatar.png'" [alt]="(currentUser$ | async)?.name"
+                class="avatar-image">
+        </div>
     </div>
-        <!-- Avatar del usuario centrado -->
-    <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)">
-        <img [src]="(currentUser$ | async)?.avatar || 'img/default-avatar.png'" 
-             [alt]="(currentUser$ | async)?.name"
-             class="avatar-image">
-    </div>
+    <mat-menu #userMenu="matMenu" class="user-menu">
+        <button mat-menu-item>
+            <mat-icon>settings_b_roll</mat-icon>
+            <span>Configuración</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+        </button>
+    </mat-menu>
     <span class="spacer"></span>
-    <button mat-button class="btn-logout" (click)="logout()" *ngIf="(isLoggedIn$ | async)">
+    <!-- <button mat-button class="btn-logout" (click)="logout()" *ngIf="(isLoggedIn$ | async)" matTooltip="Cerrar sesión">
         <mat-icon>exit_to_app</mat-icon>
-    </button>
+    </button> -->
 </header>
