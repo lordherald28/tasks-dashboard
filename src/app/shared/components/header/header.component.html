@@ -1,10 +1,10 @@
 <header class="toolbar">
     <div class="app-logo-text">
-        <img src="img/logo1.png" alt="Logo" class="logo" routerLink="/tasks" />
+        <img src="img/logo1.png" alt="Logo" class="logo circle-img " routerLink="/tasks"/>
         <span class="logo-text" routerLink="/tasks">Tasks</span>
         <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
             <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
-                class="avatar-image">
+                class="avatar-image circle-img ">
         </div>
     </div>
     <mat-menu #userMenu="matMenu" class="user-menu">

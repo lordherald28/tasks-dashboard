@@ -4,76 +4,72 @@ import { TaskService } from '../../core/services/task.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: true,
   imports: [
-    CommonModule,
-    NgxChartsModule,
-    MatCardModule,
-    MatIconModule,
-    MatGridListModule
+    CommonModule, 
+    NgxChartsModule, 
+    MatCardModule, 
+    MatIconModule
   ],
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  taskStatusData: any[] = [];
-  weeklyProgressData: any[] = [];
+  datosEstadoTareas: any[] = [];
+  datosProgresoSemanal: any[] = [];
+  
+  // Métricas en español
+  totalTareas: number = 0;
+  tareasCompletadas: number = 0;
+  tareasPendientes: number = 0;
+  tasaCompletado: number = 0;
+  productividad: number = 0;
+  tareasEstaSemana: number = 0;
+  tiempoPromedio: string = '2.5h';
+  tareasUrgentes: number = 0;
 
-  // Métricas principales
-  totalTasks: number = 0;
-  completedTasks: number = 0;
-  pendingTasks: number = 0;
-  completionRate: number = 0;
-  productivityScore: number = 0;
-  weeklyTasks: number = 0;
-  avgCompletionTime: string = '2.5h';
-  urgentTasks: number = 0;
-
-  // Esquema de colores para los gráficos
-  colorScheme: any = {
+  esquemaColores: any = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
-    this.loadChartData();
+    this.cargarDatos();
   }
 
-  loadChartData(): void {
-    this.taskService.list().subscribe(tasks => {
+  cargarDatos(): void {
+    this.taskService.list().subscribe(tareas => {
       // Calcular métricas básicas
-      this.totalTasks = tasks.length;
-      this.completedTasks = tasks.filter(t => t.status === 'completed').length;
-      this.pendingTasks = tasks.filter(t => t.status === 'pending').length;
-      this.completionRate = this.totalTasks > 0 ?
-        Math.round((this.completedTasks / this.totalTasks) * 100) : 0;
-
-      // Métricas adicionales inventadas
-      this.productivityScore = Math.min(100, Math.round(this.completionRate * 1.2));
-      this.weeklyTasks = Math.floor(this.totalTasks * 0.3);
-      this.urgentTasks = Math.floor(this.pendingTasks * 0.4);
+      this.totalTareas = tareas.length;
+      this.tareasCompletadas = tareas.filter(t => t.status === 'completed').length;
+      this.tareasPendientes = tareas.filter(t => t.status === 'pending').length;
+      this.tasaCompletado = this.totalTareas > 0 ? 
+        Math.round((this.tareasCompletadas / this.totalTareas) * 100) : 0;
+      
+      // Métricas adicionales
+      this.productividad = Math.min(100, Math.round(this.tasaCompletado * 1.2));
+      this.tareasEstaSemana = Math.floor(this.totalTareas * 0.3);
+      this.tareasUrgentes = Math.floor(this.tareasPendientes * 0.4);
 
       // Datos para gráficos
-      this.taskStatusData = [
-        { name: 'Completed', value: this.completedTasks },
-        { name: 'Pending', value: this.pendingTasks },
-        { name: 'In Progress', value: Math.max(0, this.totalTasks - this.completedTasks - this.pendingTasks) }
+      this.datosEstadoTareas = [
+        { name: 'Completadas', value: this.tareasCompletadas },
+        { name: 'Pendientes', value: this.tareasPendientes },
       ];
 
       // Datos de progreso semanal
-      this.weeklyProgressData = [
-        { name: 'Mon', value: 8 },
-        { name: 'Tue', value: 12 },
-        { name: 'Wed', value: 7 },
-        { name: 'Thu', value: 15 },
-        { name: 'Fri', value: 11 },
-        { name: 'Sat', value: 4 },
-        { name: 'Sun', value: 2 }
+      this.datosProgresoSemanal = [
+        { name: 'Lun', value: 8 },
+        { name: 'Mar', value: 12 },
+        { name: 'Mié', value: 7 },
+        { name: 'Jue', value: 15 },
+        { name: 'Vie', value: 11 },
+        { name: 'Sáb', value: 4 },
+        { name: 'Dom', value: 2 }
       ];
     });
   }

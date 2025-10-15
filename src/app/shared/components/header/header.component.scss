@@ -26,14 +26,17 @@
     }
 
     .logo {
-        height: 36px;
+        box-shadow: none;
+        object-fit:contain !important;
         margin-right: 12px;
+        cursor: pointer;
     }
 
     .logo-text {
         font-size: 1.25rem;
         font-weight: 600;
         color: inherit;
+        cursor: pointer;
     }
 }
 
@@ -59,16 +62,20 @@
     }
 
     .avatar-image {
-        width: 55px;
-        height: 55px;
-        border-radius: 50%;
-        border: 3px solid white;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        object-fit: cover;
+
         background: linear-gradient(45deg, #667eea, #764ba2);
     }
 
     z-index: 10;
+}
+
+.circle-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
 }
 
 .spacer {
@@ -77,41 +84,5 @@
     // Mantenemos el spacer en móvil para mejor distribución
     @media (max-width: 768px) {
         display: block;
-    }
-}
-
-.btn-logout {
-    display: flex;
-    align-items: center;
-    color: inherit;
-    font-weight: 500;
-    border: none;
-    background: transparent;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.2s, transform 0.1s;
-
-    // Mantenemos visible el botón en móvil
-    @media (max-width: 768px) {
-        display: flex;
-    }
-
-    mat-icon {
-        margin-right: 4px;
-        transition: color 0.2s;
-    }
-
-    &:hover {
-        background-color: rgba(63, 81, 181, 0.1);
-        transform: translateY(-1px);
-
-        mat-icon {
-            color: inherit;
-        }
-    }
-
-    &:active {
-        transform: translateY(0);
-        background-color: rgba(63, 81, 181, 0.2);
     }
 }
