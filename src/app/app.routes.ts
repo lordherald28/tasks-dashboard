@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
 import { publicGuard } from './core/guard/public.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { NotFoundComponent } from './features/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
     {
@@ -34,5 +35,10 @@ export const routes: Routes = [
         title: 'Visión General',
         canActivate: [AuthGuard]
     },
-    { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    // Ruta 404 - debe ser la última
+    {
+        path: '**',
+        component: NotFoundComponent
+    }
 ];
