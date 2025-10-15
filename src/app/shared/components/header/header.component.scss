@@ -13,12 +13,27 @@
     }
 }
 
+/* Por defecto oculto en desktop */
+.only-movil {
+    display: none;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.d-md-block {
+    @media (max-width: 768px) {
+        display: block !important;
+    }
+}
+
 .app-logo-text {
     display: flex;
     align-items: center;
     flex-basis: 100%;
 
-    // En móvil, ocultamos el texto pero mantenemos el logo si quieres
+    // En móvil, ocultamos el texto
     @media (max-width: 768px) {
         .logo-text {
             display: none;
@@ -81,7 +96,6 @@
 .spacer {
     flex: 1;
 
-    // Mantenemos el spacer en móvil para mejor distribución
     @media (max-width: 768px) {
         display: block;
     }
