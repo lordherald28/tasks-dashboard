@@ -3,7 +3,7 @@
         <img src="img/logo1.png" alt="Logo" class="logo" />
         <span class="logo-text">Tasks</span>
         <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)" [matMenuTriggerFor]="userMenu">
-            <img [src]="(currentUser$ | async)?.avatar || 'img/default-avatar.png'" [alt]="(currentUser$ | async)?.name"
+            <img [src]="(currentUser$ | async)?.avatar| imageNotFound " [alt]="(currentUser$ | async)?.name"
                 class="avatar-image">
         </div>
     </div>

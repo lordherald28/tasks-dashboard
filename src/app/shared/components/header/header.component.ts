@@ -7,6 +7,7 @@ import { CommonModule } from "@angular/common";
 import { User } from "../../../core/models/auth";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from '@angular/material/menu';
+import { ImageNotFoundPipe } from "../../pipes/image-not-found.pipe";
 
 
 @Component({
@@ -14,7 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
-    imports: [MatIcon, CommonModule, RouterModule, MatTooltipModule, MatMenuModule]
+    imports: [MatIcon, CommonModule, RouterModule, MatTooltipModule, MatMenuModule, ImageNotFoundPipe]
 })
 export class HeaderComponent implements OnInit {
     public isLoggedIn$: Observable<any> = new Observable<any>();

@@ -34,11 +34,7 @@ export class AuthService {
                 'X-Master-Key': MASTER_KEY
             }
         }).pipe(
-            tap((binData: LoginResponse) => {
-                console.log('Datos del bin:', binData);
-            }),
             map((binData: any) => {
-                console.log('Usuarios en el bin:', binData.record?.users);
                 const users: UserWithPassword[] = binData.record?.users || [];
                 const user = users.find(u => u.email === email && u.password === password);
 

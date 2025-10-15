@@ -10,7 +10,6 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
     const authService: AuthService = inject(AuthService);
     const router: Router = inject(Router);
     const notificationService: NotificationService = inject(NotificationService);
-    const role: string[] = route.data['roles'];
     const currentUser: User | null = authService.currentUser;
 
     // Si no está autenticado, redirigir al login
