@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
-
-export interface Notification {
-    message: string;
-    type: 'success' | 'error' | 'info' | 'warning';
-    action?: string;
-    duration?: number;
-}
+import { Notification } from '../models/notification';
 
 @Injectable({
     providedIn: 'root'
@@ -44,7 +38,6 @@ export class NotificationService {
         this.notify({ message, type: 'warning' });
     }
 
-    // Obtener observable para componentes que quieran escuchar (opcional)
     getNotifications(): Observable<Notification> {
         return this.notificationSubject.asObservable();
     }
