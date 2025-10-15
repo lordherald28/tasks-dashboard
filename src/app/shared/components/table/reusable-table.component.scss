@@ -85,3 +85,46 @@ table {
 .mat-column-add {
     width: 80px;
 }
+
+/* Estilos para el estado de carga */
+.loading-row {
+    height: 120px;
+}
+
+.loading-cell {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.loading-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #2e2e2e;
+
+    mat-spinner {
+        margin: 0 auto;
+    }
+
+    span {
+        font-size: 14px;
+    }
+}
+
+.no-data-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+/* Ocultar filas de datos durante la carga */
+.hidden {
+    display: none !important;
+}
+
+/* Asegurar que la tabla tenga altura mínima durante la carga */
+.table-responsive {
+    min-height: 10px;
+    position: relative;
+}

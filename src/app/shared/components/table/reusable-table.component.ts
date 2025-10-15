@@ -9,13 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
-
-export interface TableColumn {
-  key: string;
-  header: string;
-  type?: 'text' | 'badge';
-  pipe?: string;
-}
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { TableColumn } from '../../../core/models/table';
 
 @Component({
   selector: 'app-reusable-table',
@@ -24,8 +19,9 @@ export interface TableColumn {
     CommonModule,
     MatTableModule, MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatPaginatorModule, MatTooltipModule, RelativeTimePipe
-  ],
+    MatPaginatorModule, MatTooltipModule, RelativeTimePipe,
+    MatProgressSpinner
+],
   templateUrl: './reusable-table.component.html',
   styleUrls: ['./reusable-table.component.scss']
 })
@@ -42,15 +38,17 @@ export class ReusableTableComponent implements OnInit, OnChanges {
   @Input() showActions: boolean = true;
   @Input() showPagination: boolean = true;
   @Input() readonly: boolean = false;
+  @Input() isLoadingData: boolean = false;
 
   @Input() searchPlaceholder: string = 'Buscar...';
   @Input() noDataMessage: string = 'No se encontraron datos';
+  @Input() loadingMessage: string = 'Cargando datos...';
 
   @Input() pageSizeOptions: number[] = [5, 10, 25];
   @Input() pageSize: number = 5;
 
   @Input() permission: boolean = false;
-  
+
   @Output() searchChange = new EventEmitter<string>();
   @Output() statusChange = new EventEmitter<string>();
   @Output() onPageChange = new EventEmitter<PageEvent>();

@@ -4,7 +4,7 @@
       "id": "1",
       "title": "Comprar pan",
       "description": "Ir a la panadería de la esquina que nunca hay pan!!!!",
-      "status": "pending",
+      "status": "completed",
       "estimatedDuration": 45,
       "createdAt": "2025-06-15T08:30:00Z"
     },
@@ -369,20 +369,12 @@
       "estimatedDuration": 240
     },
     {
-      "id": "task_1760444905310_z4kx6dl70",
-      "title": "Buscar de Dios",
-      "description": "es necesario la presencia de Dios en cada momento de nuestras vidas.",
+      "id": "1760525912792",
+      "title": "GGGG",
+      "description": "bbbbbbb",
       "status": "pending",
       "estimatedDuration": 30,
-      "createdAt": "2025-10-14T12:28:25.310Z"
-    },
-    {
-      "id": "task_1760519876982_if9h0fj1g",
-      "title": "Fufu",
-      "description": "de platano verde",
-      "status": "pending",
-      "estimatedDuration": 300,
-      "createdAt": "2025-10-15T09:17:56.982Z"
+      "createdAt": "2025-10-15T10:58:32.792Z"
     }
   ]
 }

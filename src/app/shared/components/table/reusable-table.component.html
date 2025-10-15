@@ -75,13 +75,17 @@
     <!-- Header row -->
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
 
-    <!-- Data rows -->
-    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+    <!-- Data rows - Solo mostrar cuando no está cargando -->
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" [class.hidden]="isLoadingData"></tr>
 
-    <!-- Row cuando no hay datos -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell no-data-cell" [attr.colspan]="getDisplayedColumns().length">
-        <div class="no-data-message">
+    <!-- Row cuando está cargando -->
+    <tr class="mat-row loading-row" *matNoDataRow>
+      <td class="mat-cell loading-cell" [attr.colspan]="getDisplayedColumns().length">
+        <div class="loading-message" *ngIf="isLoadingData">
+          <mat-spinner diameter="30"></mat-spinner>
+          <span>{{ loadingMessage }}</span>
+        </div>
+        <div class="no-data-message" *ngIf="!isLoadingData">
           {{ noDataMessage }}
           <span *ngIf="lastSearchValue"> para "{{lastSearchValue}}"</span>
         </div>
@@ -89,8 +93,8 @@
     </tr>
   </table>
 
-  <!-- Paginador -->
-  <mat-paginator *ngIf="showPagination && dataSource.length > 0" [pageSizeOptions]="pageSizeOptions"
+  <!-- Paginador - Ocultar cuando está cargando -->
+  <mat-paginator *ngIf="showPagination && dataSource.length > 0 && !isLoadingData" [pageSizeOptions]="pageSizeOptions"
     [length]="dataSource.length" [pageSize]="pageSize" [pageIndex]="currentPageIndex" (page)="onPaginatorChange($event)"
     aria-label="Seleccionar página" showFirstLastButtons>
   </mat-paginator>
