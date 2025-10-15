@@ -3,6 +3,12 @@
         <img src="img/logo1.png" alt="Logo" class="logo" />
         <span class="logo-text">Tasks</span>
     </div>
+        <!-- Avatar del usuario centrado -->
+    <div class="user-avatar" *ngIf="(isLoggedIn$ | async) && (currentUser$ | async)">
+        <img [src]="(currentUser$ | async)?.avatar || 'assets/default-avatar.png'" 
+             [alt]="(currentUser$ | async)?.name"
+             class="avatar-image">
+    </div>
     <span class="spacer"></span>
     <button mat-button class="btn-logout" (click)="logout()" *ngIf="(isLoggedIn$ | async)">
         <mat-icon>exit_to_app</mat-icon>
