@@ -37,7 +37,7 @@ export class TaskListComponent implements OnInit {
   public currentUser$: Observable<User> = new Observable<User>();
   public isLoadingData: boolean = false;
 
-  public taksList = new Array<Task>();
+  public tasksList = new Array<Task>();
 
   // Configuración de la tabla
   public tableColumns: TableColumn[] = [
@@ -89,9 +89,10 @@ export class TaskListComponent implements OnInit {
       if (result) {
         this.taskService.create(result).subscribe({
           next: (value: Task) => {
-            console.log('value: ', value)
-
-            this.loadData(); // Recarga simple
+            this.tasksList = [...this.tasksList, value]
+              .sort((a: Task, b: Task) => {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              })
             this.notificationService.success('Tarea creada exitosamente');
           },
           error: () => {
@@ -126,7 +127,11 @@ export class TaskListComponent implements OnInit {
       if (result) {
         this.taskService.remove(task.id).subscribe({
           next: () => {
-            this.loadData();
+            // this.loadData();
+            this.filteredTasks$.subscribe(task => {
+              this.tasksList = [];
+              this.tasksList = task;
+            })
             this.notificationService.success('Tarea eliminada');
           },
           error: () => {
@@ -156,6 +161,9 @@ export class TaskListComponent implements OnInit {
         )
       )
     );
-    this.filteredTasks$.subscribe(value => { this.taksList = value; this.isLoadingData = false; })
+
+    this.filteredTasks$.subscribe(value => {
+      this.tasksList = value; this.isLoadingData = false;
+    });
   }
 }
