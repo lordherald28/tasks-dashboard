@@ -127,7 +127,6 @@ export class TaskListComponent implements OnInit {
       if (result) {
         this.taskService.remove(task.id).subscribe({
           next: () => {
-            // this.loadData();
             this.filteredTasks$.subscribe(task => {
               this.tasksList = [];
               this.tasksList = task;
