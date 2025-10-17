@@ -32,7 +32,6 @@ export class AuthService {
     login(email: string, password: string): Observable<LoginResponse> {
         return this.http.get<LoginResponse>(`${MOCK_API_LOGIN}`).pipe(
             map((binData: any) => {
-                console.log('users: ', binData)
                 const users: UserWithPassword[] = binData || [];//binData.record?.users || [];
                 const user = users.find(u => u.email === email && u.password === password);
 
@@ -80,10 +79,13 @@ export class AuthService {
     }
 
     logout(): void {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('current_user');
-        this.currentUserSubject.next(null);
-        this.isAuthenticated$.next(false);
+        // localStorage.removeItem('auth_token');
+        // localStorage.removeItem('current_user');
+        // this.currentUserSubject.next(null);
+        // this.isAuthenticated$.next(false);
+        console.log('antes borrado: ', this.currentUser);
+        this.clearAuthData();
+        console.log('despues borrado: ', this.currentUser);
         this.notificationService.info('Sesión cerrada');
     }
 
