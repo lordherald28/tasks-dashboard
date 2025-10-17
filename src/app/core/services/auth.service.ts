@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
 import { LoginResponse, User, UserWithPassword } from '../models/auth';
-import { BIN_ID, MASTER_KEY } from '../utils/const';
-import { JSONBIN_BASE_URL } from '../config/api';
+import { MOCK_API_LOGIN } from '../config/api';
 import { Notification } from '../models/notification';
 
 @Injectable({
@@ -31,13 +30,10 @@ export class AuthService {
      * Login usando JSONBin.io como backend simulado
      */
     login(email: string, password: string): Observable<LoginResponse> {
-        return this.http.get<LoginResponse>(`${JSONBIN_BASE_URL}/${BIN_ID}`, {
-            headers: {
-                'X-Master-Key': MASTER_KEY
-            }
-        }).pipe(
+        return this.http.get<LoginResponse>(`${MOCK_API_LOGIN}`).pipe(
             map((binData: any) => {
-                const users: UserWithPassword[] = binData.record?.users || [];
+                console.log('users: ', binData)
+                const users: UserWithPassword[] = binData || [];//binData.record?.users || [];
                 const user = users.find(u => u.email === email && u.password === password);
 
                 if (user) {
