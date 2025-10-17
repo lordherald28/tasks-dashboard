@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { API_URL } from '../config/api';
+import { API_URL, MOCK_API } from '../config/api';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ export class TaskService {
   private base = inject(API_URL);
   private readonly STORAGE_KEY = 'tasks';
   private cache$ = new BehaviorSubject<Task[]>([]);
+  private readonly url_api : string = MOCK_API;
 
   constructor(private readonly http: HttpClient) {
     // Cargar datos iniciales desde localStorage
@@ -37,7 +38,7 @@ export class TaskService {
 
   public list(): Observable<Task[]> {
     // Primero intentar con la API, si falla usar localStorage
-    return this.http.get<Task[]>(this.base).pipe(
+    return this.http.get<Task[]>(this.url_api).pipe(
       map(tasks => tasks.sort((a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       )),
@@ -56,7 +57,7 @@ export class TaskService {
       return of(cachedTask);
     }
 
-    return this.http.get<Task>(`${this.base}/${id}`).pipe(
+    return this.http.get<Task>(`${this.url_api}/${id}`).pipe(
       catchError(() => {
         throw new Error('Task not found in API or cache');
       })
@@ -75,7 +76,7 @@ export class TaskService {
     this.saveToStorage(updatedTasks);
 
 
-    return this.http.post<Task>(this.base, newTask).pipe(
+    return this.http.post<Task>(this.url_api, newTask).pipe(
       catchError(() => {
         return of(newTask);
       })
@@ -92,7 +93,7 @@ export class TaskService {
     const updatedTask = updatedTasks.find(task => task.id === id)!;
 
     // Intentar con la API
-    return this.http.put<Task>(`${this.base}/${id}`, body).pipe(
+    return this.http.put<Task>(`${this.url_api}/${id}`, body).pipe(
       catchError(() => {
         return of(updatedTask);
       })
@@ -105,7 +106,7 @@ export class TaskService {
     this.saveToStorage(updatedTasks);
 
     // Intentar con la API
-    return this.http.delete<void>(`${this.base}/${id}`).pipe(
+    return this.http.delete<void>(`${this.url_api}/${id}`).pipe(
       catchError(() => {
         console.warn('Fallo al borrar, usar localStorage');
         return of(void 0);
