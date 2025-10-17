@@ -45,7 +45,7 @@ export class TaskService implements OnDestroy {
       try {
         // Filtrar aquellas tareas que solo tenga el id del usuario logeado
         const currentUserId: number = this.getCurrentUserId();
-        const tasks = selectTaskById(JSON.parse(stored), currentUserId) as Task[];
+        const tasks = selectTaskById<Task>(JSON.parse(stored), currentUserId) as Task[];
         this.cache$.next(tasks);
       } catch (e) {
         this.cache$.next([]);
@@ -97,7 +97,7 @@ export class TaskService implements OnDestroy {
 
     const updatedTasks = [...this.cache$.value, newTask];
     const currentUserId: number = this.getCurrentUserId();
-    const taskFiltred: Task[] = selectTaskById(updatedTasks, currentUserId) as Task[];
+    const taskFiltred: Task[] = selectTaskById<Task>(updatedTasks, currentUserId) as Task[];
     this.saveToStorage(taskFiltred);
 
 
@@ -133,7 +133,7 @@ export class TaskService implements OnDestroy {
     const currentUserId: number = this.getCurrentUserId();
     return this.http.delete<any>(`${this.url_user_api}/${currentUserId}/tasks/${id}`, { headers: { 'Content-Type': 'application/json' } }).pipe(
       catchError((e) => {
-        console.warn('Fallo al borrar, usar localStorage: ', e);
+        console.warn('Fallo al borrar, usar localStorage: ', e.error);
         return of(void 0);
       })
     );
